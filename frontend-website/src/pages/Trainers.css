@@ -25,7 +25,6 @@
 }
 
 .trainer-image {
-  position: relative;
   height: 350px;
   overflow: hidden;
 }
@@ -39,34 +38,6 @@
 
 .trainer-card:hover .trainer-image img {
   transform: scale(1.1);
-}
-
-.trainer-social {
-  position: absolute;
-  bottom: -50px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  padding: 15px;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-  transition: bottom 0.3s ease;
-}
-
-.trainer-card:hover .trainer-social {
-  bottom: 0;
-}
-
-.trainer-social a {
-  color: #FFD700;
-  text-decoration: none;
-  font-size: 1.5rem;
-  transition: transform 0.3s;
-}
-
-.trainer-social a:hover {
-  transform: translateY(-3px);
 }
 
 .trainer-info {
