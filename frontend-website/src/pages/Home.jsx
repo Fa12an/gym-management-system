@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import FreeTrialForm from '../components/FreeTrialForm';
 import './Home.css';
 
 function Home() {
@@ -8,11 +7,11 @@ function Home() {
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-content">
-          <h1>Transform Your Body, <span>Transform Your Life</span></h1>
-          <p>Join Fitness Pro Gym and start your fitness journey today with expert trainers and state-of-the-art equipment.</p>
+          <h1>Welcome to <span>MUSCLE UNIVERSE</span></h1>
+          <p>Where Champions Are Made. Join the best gym in BTM Layout, Bengaluru!</p>
           <div className="hero-buttons">
-            <Link to="/plans" className="btn btn-primary">Join Now</Link>
-            <Link to="/contact" className="btn btn-secondary">Contact Us</Link>
+            <Link to="/book-trial" className="btn">Book Free Trial</Link>
+            <a href="#contact" className="btn btn-outline">Contact Us</a>
           </div>
         </div>
       </section>
@@ -20,7 +19,7 @@ function Home() {
       {/* Features Section */}
       <section className="features">
         <div className="container">
-          <h2 className="section-title">Why Choose Us?</h2>
+          <h2 className="section-title">Why Choose Muscle Universe?</h2>
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-icon">🏋️</div>
@@ -40,17 +39,17 @@ function Home() {
             <div className="feature-card">
               <div className="feature-icon">🕐</div>
               <h3>Flexible Hours</h3>
-              <p>Open early morning to late night</p>
+              <p>Open 5 AM to 11 PM daily</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Pricing Preview */}
-      <section className="pricing-preview">
+      {/* Pricing Section */}
+      <section className="pricing">
         <div className="container">
           <h2 className="section-title">Membership Plans</h2>
-          <div className="preview-cards">
+          <div className="pricing-grid">
             <div className="price-card">
               <h3>Monthly</h3>
               <div className="price">₹1,499<span>/month</span></div>
@@ -58,8 +57,9 @@ function Home() {
                 <li>✓ Full Gym Access</li>
                 <li>✓ Basic Training</li>
                 <li>✓ Locker Facility</li>
+                <li>✓ Free WiFi</li>
               </ul>
-              <Link to="/plans" className="btn">Select Plan</Link>
+              <Link to="/book-trial" className="btn">Book Trial</Link>
             </div>
             <div className="price-card popular">
               <div className="popular-badge">Most Popular</div>
@@ -71,7 +71,7 @@ function Home() {
                 <li>✓ Locker + Towel</li>
                 <li>✓ Diet Consultation</li>
               </ul>
-              <Link to="/plans" className="btn">Select Plan</Link>
+              <Link to="/book-trial" className="btn">Book Trial</Link>
             </div>
             <div className="price-card">
               <h3>Yearly</h3>
@@ -82,7 +82,48 @@ function Home() {
                 <li>✓ Premium Locker</li>
                 <li>✓ Diet Plan + Supplements</li>
               </ul>
-              <Link to="/plans" className="btn">Select Plan</Link>
+              <Link to="/book-trial" className="btn">Book Trial</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Location Section */}
+      <section className="location" id="contact">
+        <div className="container">
+          <h2 className="section-title">Find Us</h2>
+          <div className="location-grid">
+            <div className="location-info">
+              <h3>📍 Our Address</h3>
+              <p>No 50, JKN ARCADE, 3rd & 4th Floor,<br />
+              1st Cross, 27th Main, BTM 1st Stage,<br />
+              Bengaluru, Karnataka 560068</p>
+              
+              <h3>📞 Contact</h3>
+              <p>Phone: 95356 68280</p>
+              
+              <h3>🕐 Opening Hours</h3>
+              <p>Mon-Fri: 5:00 AM - 11:00 PM</p>
+              <p>Saturday: 6:00 AM - 10:00 PM</p>
+              <p>Sunday: 7:00 AM - 9:00 PM</p>
+              
+              <h3>💳 Payment Methods</h3>
+              <p>Cash • Google Pay</p>
+              
+              <h3>🅿️ Parking</h3>
+              <p>Free parking lot available • On-site parking</p>
+            </div>
+            <div className="location-map">
+              <iframe
+                title="Muscle Universe Gym Location"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.0!2d77.6075!3d12.9165!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae15c8a5c0e0f1%3A0x8f8f8f8f8f8f8f8!2sBTM%20Layout%2C%20Bengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                width="100%"
+                height="400"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
             </div>
           </div>
         </div>
@@ -94,34 +135,17 @@ function Home() {
           <h2 className="section-title">What Our Members Say</h2>
           <div className="testimonials-grid">
             <div className="testimonial-card">
-              <p>"Best gym in town! The trainers are very supportive and helped me lose 15 kgs in 3 months."</p>
+              <p>"Best gym in BTM Layout! The trainers are very supportive and helped me lose 15 kgs in 3 months."</p>
               <h4>- Rahul Sharma</h4>
             </div>
             <div className="testimonial-card">
-              <p>"Amazing atmosphere and top-notch equipment. Highly recommend to everyone!"</p>
+              <p>"Amazing atmosphere and top-notch equipment. Highly recommend Muscle Universe!"</p>
               <h4>- Priya Patel</h4>
             </div>
             <div className="testimonial-card">
-              <p>"Joined 6 months ago and I'm in the best shape of my life. Thank you Fitness Pro!"</p>
+              <p>"Joined 6 months ago and I'm in the best shape of my life. Thank you Muscle Universe!"</p>
               <h4>- Amit Kumar</h4>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Free Trial CTA */}
-      <section className="trial-section">
-        <div className="container">
-          <div className="trial-wrapper">
-            <div className="trial-text">
-              <h2>Ready to Start Your Journey?</h2>
-              <p>Get 3 days FREE trial. No commitment required!</p>
-              <div className="call-buttons">
-                <a href="tel:+919876543210" className="btn-call">📞 Call Now</a>
-                <Link to="/plans" className="btn-join">Join Now →</Link>
-              </div>
-            </div>
-            <FreeTrialForm />
           </div>
         </div>
       </section>
