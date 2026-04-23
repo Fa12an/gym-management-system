@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException
 from database import users_collection
-from models.user import User
 from passlib.context import CryptContext
 from jose import jwt
 from datetime import datetime, timedelta
@@ -8,33 +7,27 @@ import os
 
 router = APIRouter()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-SECRET_KEY = os.getenv("SECRET_KEY", "mysecretkey")
+SECRET_KEY = os.getenv("SECRET_KEY", "muscle-universe-secret-key-2024")
 
-def hash_password(password: str):
-    return pwd_context.hash(password)
-
-def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
-
-@router.post("/register")
-def register(user: User):
-    if users_collection.find_one({"email": user.email}):
-        raise HTTPException(status_code=400, detail="Email already registered")
-    
-    hashed = hash_password(user.password)
-    user_dict = user.dict()
-    user_dict["password"] = hashed
-    users_collection.insert_one(user_dict)
-    return {"message": "User created successfully"}
-
-@router.post("/login")
-def login(email: str, password: str):
-    user = users_collection.find_one({"email": email})
-    if not user or not verify_password(password, user["password"]):
+@router.post("/api/login")
+def login(login_data: dict):
+    user = users_collection.find_one({"email": login_data["email"]})
+    if not user or not pwd_context.verify(login_data["password"], user["password"]):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
     token = jwt.encode(
-        {"sub": email, "exp": datetime.utcnow() + timedelta(hours=24)},
+        {"email": user["email"], "exp": datetime.utcnow() + timedelta(hours=24)},
         SECRET_KEY
     )
-    return {"access_token": token, "token_type": "bearer"}
+    return {"token": token, "user": {"email": user["email"], "role": user["role"]}}
+
+@router.get("/api/check-auth")
+def check_auth(token: str):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        user = users_collection.find_one({"email": payload["email"]})
+        if user:
+            return {"authenticated": True, "role": user["role"]}
+    except:
+        pass
+    raise HTTPException(status_code=401, detail="Not authenticated")
