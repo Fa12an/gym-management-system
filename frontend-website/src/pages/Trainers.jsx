@@ -1,9 +1,4 @@
-import { useEffect } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Trainers.css';
-
-gsap.registerPlugin(ScrollTrigger);
 
 function Trainers() {
   const trainers = [
@@ -41,25 +36,6 @@ function Trainers() {
     }
   ];
 
-  useEffect(() => {
-    gsap.utils.toArray('.trainer-card').forEach((card, i) => {
-      gsap.fromTo(card,
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          delay: i * 0.1,
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse'
-          }
-        }
-      );
-    });
-  }, []);
-
   return (
     <div className="trainers-page">
       <div className="page-header">
@@ -73,11 +49,6 @@ function Trainers() {
             <div key={index} className="trainer-card">
               <div className="trainer-image">
                 <img src={trainer.image} alt={trainer.name} />
-                <div className="trainer-social">
-                  <a href="#"><span>📘</span></a>
-                  <a href="#"><span>📷</span></a>
-                  <a href="#"><span>▶️</span></a>
-                </div>
               </div>
               <div className="trainer-info">
                 <h2>{trainer.name}</h2>
