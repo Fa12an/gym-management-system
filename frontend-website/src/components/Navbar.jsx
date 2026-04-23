@@ -1,25 +1,63 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import './Navbar.css';
 
 function Navbar({ isAuthenticated, userRole, onLogout }) {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navLinks = [
+    { path: '/', label: 'Home' },
+    { path: '/about', label: 'About' },
+    { path: '/trainers', label: 'Trainers' },
+    { path: '/gallery', label: 'Gallery' },
+    { path: '/join', label: 'Join Us' },
+  ];
+
   return (
-    <nav className="navbar">
+    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="nav-container">
         <Link to="/" className="logo">
-          💪 <span>MUSCLE UNIVERSE</span>
+          <span className="logo-icon">💪</span>
+          <span className="logo-text">MUSCLE <span>UNIVERSE</span></span>
         </Link>
-        <ul className="nav-menu">
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/book-trial">Free Trial</Link></li>
+
+        <div className={`nav-menu ${mobileMenuOpen ? 'active' : ''}`}>
+          {navLinks.map(link => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className={`nav-link ${location.pathname === link.path ? 'active' : ''}`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {link.label}
+            </Link>
+          ))}
+          
           {isAuthenticated && userRole === 'admin' ? (
             <>
-              <li><Link to="/admin-dashboard">Admin Panel</Link></li>
-              <li><button onClick={onLogout} className="logout-btn">Logout</button></li>
+              <Link to="/admin-dashboard" className="nav-link admin-link">Admin Panel</Link>
+              <button onClick={onLogout} className="nav-logout-btn">Logout</button>
             </>
           ) : (
-            <li><Link to="/admin-login">Admin Login</Link></li>
+            <Link to="/admin-login" className="nav-admin-btn">Admin</Link>
           )}
-        </ul>
+        </div>
+
+        <button className="mobile-menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
     </nav>
   );
