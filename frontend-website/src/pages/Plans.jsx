@@ -1,102 +1,376 @@
 import { Link } from 'react-router-dom';
-import FreeTrialForm from '../components/FreeTrialForm';
+import { useEffect, useState } from 'react';
 import './Plans.css';
 
 function Plans() {
-  const plans = [
-    {
-      name: 'Monthly',
-      price: '1,499',
-      period: 'month',
-      features: [
-        'Full Gym Access',
-        'Basic Training Guidance',
-        'Locker Facility',
-        'Free WiFi',
-        'Changing Rooms'
-      ]
-    },
-    {
-      name: 'Quarterly',
-      price: '3,999',
-      period: '3 months',
-      features: [
-        'Full Gym Access',
-        'Personal Training (2x/week)',
-        'Locker + Towel Service',
-        'Diet Consultation',
-        'Free WiFi',
-        'Body Composition Analysis'
-      ],
-      popular: true
-    },
-    {
-      name: 'Yearly',
-      price: '12,999',
-      period: 'year',
-      features: [
-        'Full Gym Access',
-        'Unlimited Personal Training',
-        'Premium Locker',
-        'Custom Diet Plan',
-        'Supplement Discounts',
-        'Monthly Progress Tracking',
-        'Guest Passes (2/month)'
-      ]
-    }
-  ];
+  const [billingCycle, setBillingCycle] = useState('monthly');
+  const [selectedPlan, setSelectedPlan] = useState(null);
+
+  const plans = {
+    monthly: [
+      {
+        id: 1,
+        name: 'Basic',
+        price: '1,499',
+        period: 'month',
+        features: [
+          'Full Gym Access',
+          'Basic Training Guidance',
+          'Locker Facility',
+          'Free WiFi',
+          'Changing Rooms',
+          'Drinking Water'
+        ],
+        popular: false,
+        color: '#FFD700'
+      },
+      {
+        id: 2,
+        name: 'Pro',
+        price: '2,499',
+        period: 'month',
+        features: [
+          'Full Gym Access',
+          'Personal Training (4x/week)',
+          'Premium Locker',
+          'Free WiFi + Towel',
+          'Diet Consultation',
+          'Body Composition Analysis',
+          'Guest Pass (1/month)'
+        ],
+        popular: true,
+        color: '#FF6B35'
+      },
+      {
+        id: 3,
+        name: 'Elite',
+        price: '3,999',
+        period: 'month',
+        features: [
+          '24/7 Gym Access',
+          'Unlimited Personal Training',
+          'VIP Locker',
+          'Custom Diet Plan',
+          'Monthly Progress Tracking',
+          'Supplement Discounts',
+          'Guest Pass (2/month)',
+          'Priority Class Booking'
+        ],
+        popular: false,
+        color: '#9B59B6'
+      }
+    ],
+    quarterly: [
+      {
+        id: 4,
+        name: 'Basic',
+        price: '3,999',
+        period: '3 months',
+        features: [
+          'Full Gym Access',
+          'Basic Training Guidance',
+          'Locker Facility',
+          'Free WiFi',
+          'Changing Rooms'
+        ],
+        popular: false,
+        color: '#FFD700'
+      },
+      {
+        id: 5,
+        name: 'Pro',
+        price: '6,999',
+        period: '3 months',
+        features: [
+          'Full Gym Access',
+          'Personal Training (4x/week)',
+          'Premium Locker + Towel',
+          'Diet Consultation',
+          'Body Composition Analysis',
+          'Free Protein Shake (1/week)'
+        ],
+        popular: true,
+        color: '#FF6B35'
+      },
+      {
+        id: 6,
+        name: 'Elite',
+        price: '10,999',
+        period: '3 months',
+        features: [
+          '24/7 Gym Access',
+          'Unlimited Personal Training',
+          'VIP Locker',
+          'Custom Diet Plan',
+          'Monthly Progress Tracking',
+          'Supplement Discounts (20%)'
+        ],
+        popular: false,
+        color: '#9B59B6'
+      }
+    ],
+    yearly: [
+      {
+        id: 7,
+        name: 'Basic',
+        price: '12,999',
+        period: 'year',
+        features: [
+          'Full Gym Access',
+          'Basic Training Guidance',
+          'Locker Facility',
+          'Free WiFi',
+          'Changing Rooms'
+        ],
+        popular: false,
+        color: '#FFD700'
+      },
+      {
+        id: 8,
+        name: 'Pro',
+        price: '22,999',
+        period: 'year',
+        features: [
+          'Full Gym Access',
+          'Personal Training (4x/week)',
+          'Premium Locker + Towel',
+          'Diet Consultation',
+          'Body Composition Analysis',
+          'Free Merchandise'
+        ],
+        popular: true,
+        color: '#FF6B35'
+      },
+      {
+        id: 9,
+        name: 'Elite',
+        price: '35,999',
+        period: 'year',
+        features: [
+          '24/7 Gym Access',
+          'Unlimited Personal Training',
+          'VIP Locker',
+          'Custom Diet Plan',
+          'Monthly Progress Tracking',
+          'Supplement Discounts (30%)',
+          'Free Annual Health Checkup'
+        ],
+        popular: false,
+        color: '#9B59B6'
+      }
+    ]
+  };
+
+  const currentPlans = plans[billingCycle];
+
+  const handlePlanSelect = (plan) => {
+    setSelectedPlan(plan);
+    setTimeout(() => {
+      window.location.href = '/join';
+    }, 500);
+  };
+
+  useEffect(() => {
+    // Add animation on scroll
+    const cards = document.querySelectorAll('.plan-card-premium');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    cards.forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(30px)';
+      card.style.transition = 'all 0.6s ease';
+      observer.observe(card);
+    });
+
+    return () => observer.disconnect();
+  }, [billingCycle]);
 
   return (
     <div className="plans-page">
-      <div className="page-header">
-        <h1>Membership Plans</h1>
-        <p>Choose the perfect plan that fits your fitness goals</p>
-      </div>
-
-      <div className="plans-container">
-        {plans.map((plan, index) => (
-          <div key={index} className={`plan-card ${plan.popular ? 'popular' : ''}`}>
-            {plan.popular && <div className="popular-tag">🔥 Most Popular</div>}
-            <h2>{plan.name}</h2>
-            <div className="price">
-              ₹{plan.price}<span>/{plan.period}</span>
-            </div>
-            <ul className="features-list">
-              {plan.features.map((feature, i) => (
-                <li key={i}>✓ {feature}</li>
-              ))}
-            </ul>
-            <Link to="/contact" className="join-btn">Join Now →</Link>
-          </div>
-        ))}
-      </div>
-
-      <div className="trial-banner">
-        <div className="trial-banner-content">
-          <h2>Not sure which plan to choose?</h2>
-          <p>Book a free trial and experience our gym before committing!</p>
-          <FreeTrialForm />
+      {/* Hero Section */}
+      <div className="plans-hero">
+        <div className="plans-hero-overlay"></div>
+        <div className="plans-hero-content">
+          <h1>Membership Plans</h1>
+          <p>Choose the perfect plan that fits your fitness journey</p>
         </div>
       </div>
 
-      <div className="faq-section">
-        <h2>Frequently Asked Questions</h2>
-        <div className="faq-grid">
-          <div className="faq-item">
-            <h3>Can I upgrade my plan later?</h3>
-            <p>Yes, you can upgrade your plan anytime. The remaining amount will be adjusted.</p>
+      <div className="container">
+        {/* Billing Toggle */}
+        <div className="billing-toggle">
+          <button 
+            className={`toggle-btn ${billingCycle === 'monthly' ? 'active' : ''}`}
+            onClick={() => setBillingCycle('monthly')}
+          >
+            Monthly
+          </button>
+          <button 
+            className={`toggle-btn ${billingCycle === 'quarterly' ? 'active' : ''}`}
+            onClick={() => setBillingCycle('quarterly')}
+          >
+            Quarterly
+            <span className="save-badge">Save 15%</span>
+          </button>
+          <button 
+            className={`toggle-btn ${billingCycle === 'yearly' ? 'active' : ''}`}
+            onClick={() => setBillingCycle('yearly')}
+          >
+            Yearly
+            <span className="save-badge">Save 30%</span>
+          </button>
+        </div>
+
+        {/* Plans Grid */}
+        <div className="plans-grid-premium">
+          {currentPlans.map((plan, index) => (
+            <div 
+              key={plan.id} 
+              className={`plan-card-premium ${plan.popular ? 'popular' : ''}`}
+              style={{ '--plan-color': plan.color }}
+            >
+              {plan.popular && (
+                <div className="popular-badge-premium">
+                  🔥 Most Popular
+                </div>
+              )}
+              <div className="plan-header">
+                <h3>{plan.name}</h3>
+                <div className="plan-price">
+                  <span className="currency">₹</span>
+                  <span className="price">{plan.price}</span>
+                  <span className="period">/{plan.period}</span>
+                </div>
+                <p className="plan-description">
+                  {plan.name === 'Basic' && 'Perfect for beginners starting their fitness journey'}
+                  {plan.name === 'Pro' && 'Best for regular fitness enthusiasts'}
+                  {plan.name === 'Elite' && 'Ultimate package for serious athletes'}
+                </p>
+              </div>
+              <div className="plan-features">
+                {plan.features.map((feature, i) => (
+                  <div key={i} className="feature-item">
+                    <span className="feature-check">✓</span>
+                    <span>{feature}</span>
+                  </div>
+                ))}
+              </div>
+              <button 
+                className="plan-btn"
+                onClick={() => handlePlanSelect(plan)}
+              >
+                Get Started
+                <span className="btn-arrow">→</span>
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {/* Comparison Table */}
+        <div className="comparison-section">
+          <h2>Compare All Features</h2>
+          <div className="comparison-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Features</th>
+                  <th>Basic</th>
+                  <th>Pro</th>
+                  <th>Elite</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Gym Access Hours</td>
+                  <td>6 AM - 10 PM</td>
+                  <td>5 AM - 11 PM</td>
+                  <td>24/7 Access</td>
+                </tr>
+                <tr>
+                  <td>Personal Training</td>
+                  <td>❌</td>
+                  <td>4x/week</td>
+                  <td>Unlimited</td>
+                </tr>
+                <tr>
+                  <td>Diet Consultation</td>
+                  <td>❌</td>
+                  <td>Monthly</td>
+                  <td>Weekly</td>
+                </tr>
+                <tr>
+                  <td>Locker Type</td>
+                  <td>Standard</td>
+                  <td>Premium</td>
+                  <td>VIP</td>
+                </tr>
+                <tr>
+                  <td>Guest Passes</td>
+                  <td>❌</td>
+                  <td>1/month</td>
+                  <td>2/month</td>
+                </tr>
+                <tr>
+                  <td>Supplement Discount</td>
+                  <td>❌</td>
+                  <td>10%</td>
+                  <td>20%</td>
+                </tr>
+                <tr>
+                  <td>Free Merchandise</td>
+                  <td>❌</td>
+                  <td>T-Shirt</td>
+                  <td>Full Kit</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div className="faq-item">
-            <h3>Is there a joining fee?</h3>
-            <p>No joining fee! Just pay for your chosen plan.</p>
+        </div>
+
+        {/* FAQ Section */}
+        <div className="faq-section-premium">
+          <h2>Frequently Asked Questions</h2>
+          <div className="faq-grid-premium">
+            <div className="faq-item-premium">
+              <h3>Can I upgrade my plan later?</h3>
+              <p>Yes, you can upgrade anytime. The remaining amount will be adjusted for your new plan.</p>
+            </div>
+            <div className="faq-item-premium">
+              <h3>Is there a joining fee?</h3>
+              <p>No joining fee! Just pay for your chosen membership plan.</p>
+            </div>
+            <div className="faq-item-premium">
+              <h3>Can I freeze my membership?</h3>
+              <p>Yes, you can freeze for up to 30 days (medical/travel reasons).</p>
+            </div>
+            <div className="faq-item-premium">
+              <h3>What are payment options?</h3>
+              <p>Cash, Card, UPI, and NetBanking all accepted.</p>
+            </div>
+            <div className="faq-item-premium">
+              <h3>Is there a trial period?</h3>
+              <p>Yes! Get 3 days free trial before committing to any plan.</p>
+            </div>
+            <div className="faq-item-premium">
+              <h3>Family discount available?</h3>
+              <p>Yes! 15% discount for 2+ family members.</p>
+            </div>
           </div>
-          <div className="faq-item">
-            <h3>Can I freeze my membership?</h3>
-            <p>Yes, you can freeze your membership for up to 30 days (medical/travel reasons).</p>
-          </div>
-          <div className="faq-item">
-            <h3>What are the gym timings?</h3>
-            <p>We're open from 6 AM to 10 PM, Monday to Sunday.</p>
+        </div>
+
+        {/* CTA Section */}
+        <div className="plans-cta">
+          <div className="plans-cta-content">
+            <h2>Not sure which plan to choose?</h2>
+            <p>Book a free trial and experience our gym before committing!</p>
+            <Link to="/join" className="btn-plans-cta">Book Free Trial →</Link>
           </div>
         </div>
       </div>
