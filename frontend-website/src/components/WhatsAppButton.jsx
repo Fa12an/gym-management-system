@@ -12,7 +12,7 @@ function WhatsAppButton() {
       rel="noopener noreferrer"
       style={{
         position: 'fixed',
-        bottom: '20px',
+        bottom: '80px',
         right: '20px',
         backgroundColor: '#25D366',
         color: 'white',
@@ -26,7 +26,8 @@ function WhatsAppButton() {
         textDecoration: 'none',
         boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
         zIndex: 1000,
-        transition: 'transform 0.3s'
+        transition: 'transform 0.3s',
+        animation: 'float 2s infinite'
       }}
       onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
       onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
