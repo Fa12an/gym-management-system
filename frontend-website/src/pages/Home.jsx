@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import './Home.css';
 
 function Home() {
@@ -9,32 +9,6 @@ function Home() {
     classes: 0,
     years: 0
   });
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const videoRef = useRef(null);
-
-  const testimonials = [
-    {
-      name: "Rahul Sharma",
-      role: "Member since 2023",
-      text: "Best gym in BTM Layout! The trainers are very supportive and helped me lose 15 kgs in 3 months.",
-      rating: 5,
-      image: "https://randomuser.me/api/portraits/men/1.jpg"
-    },
-    {
-      name: "Priya Patel",
-      role: "Member since 2022",
-      text: "Amazing atmosphere and top-notch equipment. The personal training sessions are life-changing!",
-      rating: 5,
-      image: "https://randomuser.me/api/portraits/women/1.jpg"
-    },
-    {
-      name: "Amit Kumar",
-      role: "Member since 2023",
-      text: "Joined 6 months ago and I'm in the best shape of my life. Thank you Muscle Universe!",
-      rating: 5,
-      image: "https://randomuser.me/api/portraits/men/2.jpg"
-    }
-  ];
 
   useEffect(() => {
     // Animate stats counter
@@ -66,26 +40,20 @@ function Home() {
 
     const statsSection = document.querySelector('.stats-section');
     if (statsSection) observer.observe(statsSection);
-
-    // Auto-rotate testimonials
-    const interval = setInterval(() => {
-      setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [testimonials.length]);
+  }, []);
 
   return (
     <div className="home">
-      {/* Hero Section with Video Background */}
+      {/* Hero Section with Background Image */}
       <section className="hero-premium">
-        <div className="hero-video-overlay"></div>
-        <div className="hero-bg-gradient"></div>
+        <div className="hero-bg-image"></div>
+        <div className="hero-overlay-premium"></div>
+        <div className="hero-gradient-premium"></div>
         <div className="hero-content-premium">
-          <div className="hero-badge">#1 Gym in BTM Layout</div>
+          <div className="hero-badge-premium">🏆 #1 Gym in BTM Layout</div>
           <h1 className="hero-title-premium">
-            TRANSFORM YOUR
-            <span className="gradient-text"> BODY, TRANSFORM</span>
+            TRANSFORM YOUR<br />
+            <span className="gradient-text">BODY, TRANSFORM</span><br />
             YOUR LIFE
           </h1>
           <p className="hero-subtitle-premium">
@@ -100,18 +68,18 @@ function Home() {
               View Plans
             </Link>
           </div>
-          <div className="hero-stats">
-            <div className="hero-stat">
-              <div className="hero-stat-number">5000+</div>
+          <div className="hero-stats-premium">
+            <div className="hero-stat-premium">
+              <div className="hero-stat-number">{stats.members}+</div>
               <div className="hero-stat-label">Happy Members</div>
             </div>
-            <div className="hero-stat-divider"></div>
-            <div className="hero-stat">
-              <div className="hero-stat-number">50+</div>
+            <div className="hero-stat-divider-premium"></div>
+            <div className="hero-stat-premium">
+              <div className="hero-stat-number">{stats.trainers}+</div>
               <div className="hero-stat-label">Expert Trainers</div>
             </div>
-            <div className="hero-stat-divider"></div>
-            <div className="hero-stat">
+            <div className="hero-stat-divider-premium"></div>
+            <div className="hero-stat-premium">
               <div className="hero-stat-number">20+</div>
               <div className="hero-stat-label">Classes Weekly</div>
             </div>
@@ -123,7 +91,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Features Section with Glassmorphism */}
+      {/* Features Section */}
       <section className="features-premium">
         <div className="container">
           <div className="section-header">
@@ -174,6 +142,7 @@ function Home() {
 
       {/* Stats Section with Parallax */}
       <section className="stats-section">
+        <div className="stats-bg-image"></div>
         <div className="stats-overlay"></div>
         <div className="container">
           <div className="stats-grid-premium">
