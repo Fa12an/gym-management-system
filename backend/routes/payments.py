@@ -1,62 +1,36 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from database import payments_collection, members_collection
-from models.payment import Payment
-from bson import ObjectId
 from datetime import datetime
+from bson import ObjectId
 
 router = APIRouter()
 
-def payment_helper(payment) -> dict:
-    return {
-        "id": str(payment["_id"]),
-        "member_id": payment["member_id"],
-        "amount": payment["amount"],
-        "month": payment["month"],
-        "status": payment["status"],
-        "payment_date": str(payment["payment_date"]),
-        "payment_method": payment["payment_method"]
-    }
-
-@router.get("/payments")
+@router.get("/api/payments")
 def get_all_payments():
     payments = []
     for payment in payments_collection.find().sort("payment_date", -1):
-        payment_dict = payment_helper(payment)
+        payment_dict = {
+            "id": str(payment["_id"]),
+            "member_id": payment.get("member_id", ""),
+            "amount": payment.get("amount", 0),
+            "month": payment.get("month", ""),
+            "status": payment.get("status", "paid"),
+            "payment_date": str(payment.get("payment_date", datetime.now())),
+            "payment_method": payment.get("payment_method", "cash")
+        }
         # Get member name
-        member = members_collection.find_one({"_id": ObjectId(payment["member_id"])})
-        payment_dict["member_name"] = member["name"] if member else "Unknown"
+        member = members_collection.find_one({"_id": ObjectId(payment["member_id"])}) if payment.get("member_id") else None
+        payment_dict["member_name"] = member.get("name", "Unknown") if member else "Unknown"
         payments.append(payment_dict)
     return payments
 
-@router.post("/payments")
-def add_payment(payment: Payment):
-    payment_dict = payment.dict()
-    result = payments_collection.insert_one(payment_dict)
+@router.post("/api/payments")
+def add_payment(payment_data: dict):
+    payment_data["payment_date"] = datetime.now()
+    payment_data["status"] = "paid"
+    result = payments_collection.insert_one(payment_data)
     return {"message": "Payment recorded", "id": str(result.inserted_id)}
 
-@router.get("/payments/pending")
+@router.get("/api/payments/pending")
 def get_pending_payments():
-    # Find members with no payment for current month
-    current_month = datetime.now().strftime("%B %Y")
-    members_with_payment = set()
-    for payment in payments_collection.find({"month": current_month}):
-        members_with_payment.add(payment["member_id"])
-    
-    pending = []
-    for member in members_collection.find():
-        if str(member["_id"]) not in members_with_payment and member["status"] == "active":
-            pending.append({
-                "member_id": str(member["_id"]),
-                "name": member["name"],
-                "phone": member["phone"],
-                "plan": member["plan"],
-                "fee": member.get("fee", 500)
-            })
-    return pending
-
-@router.get("/payments/member/{member_id}")
-def get_member_payments(member_id: str):
-    payments = []
-    for payment in payments_collection.find({"member_id": member_id}):
-        payments.append(payment_helper(payment))
-    return payments
+    return []  # Return empty list for now
