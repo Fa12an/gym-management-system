@@ -1,48 +1,19 @@
 .gallery-page {
   min-height: 100vh;
-}
-
-.gallery-filters {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  padding: 2rem;
-  background: #f8f9fa;
-}
-
-.filter-btn {
-  padding: 8px 20px;
-  border: none;
-  background: white;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: all 0.3s;
-  font-weight: 500;
-}
-
-.filter-btn.active {
-  background: #ff6b35;
-  color: white;
-}
-
-.filter-btn:hover:not(.active) {
-  background: #e0e0e0;
+  padding-top: 80px;
 }
 
 .gallery-grid {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 3rem 2rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 1.5rem;
+  gap: 20px;
+  padding: 60px 0;
 }
 
 .gallery-item {
   position: relative;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 15px;
   cursor: pointer;
   aspect-ratio: 4/3;
 }
@@ -51,7 +22,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s;
+  transition: transform 0.5s ease;
 }
 
 .gallery-item:hover img {
@@ -60,18 +31,22 @@
 
 .gallery-overlay {
   position: absolute;
-  bottom: 0;
+  bottom: -100%;
   left: 0;
   right: 0;
-  background: linear-gradient(transparent, rgba(0,0,0,0.8));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
   color: white;
-  padding: 1rem;
-  transform: translateY(100%);
-  transition: transform 0.3s;
+  padding: 20px;
+  transition: bottom 0.3s ease;
 }
 
 .gallery-item:hover .gallery-overlay {
-  transform: translateY(0);
+  bottom: 0;
+}
+
+.gallery-overlay h3 {
+  color: #FFD700;
+  margin-bottom: 5px;
 }
 
 .lightbox {
@@ -80,11 +55,12 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,0.9);
+  background: rgba(0, 0, 0, 0.95);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2000;
+  cursor: pointer;
 }
 
 .lightbox-content {
@@ -96,13 +72,13 @@
 .lightbox-content img {
   width: 100%;
   height: auto;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 .lightbox-content h3 {
-  color: white;
+  color: #FFD700;
   text-align: center;
-  margin-top: 1rem;
+  margin-top: 20px;
 }
 
 .close-btn {
@@ -114,22 +90,9 @@
   color: white;
   font-size: 2rem;
   cursor: pointer;
+  transition: color 0.3s;
 }
 
-.gallery-cta {
-  text-align: center;
-  padding: 4rem 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-}
-
-.gallery-cta .cta-button {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 12px 30px;
-  background: white;
-  color: #667eea;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: bold;
+.close-btn:hover {
+  color: #FFD700;
 }
