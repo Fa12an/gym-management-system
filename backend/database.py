@@ -13,13 +13,21 @@ MONGO_URI = os.getenv("MONGO_URI")
 if not MONGO_URI:
     raise ValueError("MONGO_URI environment variable is not set!")
 
+# Connect to MongoDB
 client = MongoClient(MONGO_URI)
+
+# Use muscleuniverse database
 db = client["muscleuniverse"]
 
 # Collections
 bookings_collection = db["bookings"]
 members_collection = db["members"]
 users_collection = db["users"]
+
+# Alias for compatibility with existing route files
+payments_collection = db["payments"]  # This will be created if needed
+leads_collection = db["leads"]  # This will be created if needed
+attendance_collection = db["attendance"]  # This will be created if needed
 
 logger.info("✅ Connected to MongoDB!")
 
