@@ -1,30 +1,32 @@
 .trainers-page {
   min-height: 100vh;
+  padding-top: 80px;
 }
 
 .trainers-grid {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 4rem 2rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
+  gap: 30px;
+  padding: 60px 0;
 }
 
 .trainer-card {
-  background: white;
-  border-radius: 16px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #141414 100%);
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 215, 0, 0.1);
 }
 
 .trainer-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-10px);
+  border-color: #FFD700;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 .trainer-image {
-  height: 300px;
+  position: relative;
+  height: 350px;
   overflow: hidden;
 }
 
@@ -32,76 +34,85 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s;
+  transition: transform 0.5s ease;
 }
 
 .trainer-card:hover .trainer-image img {
-  transform: scale(1.05);
+  transform: scale(1.1);
+}
+
+.trainer-social {
+  position: absolute;
+  bottom: -50px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 15px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  transition: bottom 0.3s ease;
+}
+
+.trainer-card:hover .trainer-social {
+  bottom: 0;
+}
+
+.trainer-social a {
+  color: #FFD700;
+  text-decoration: none;
+  font-size: 1.5rem;
+  transition: transform 0.3s;
+}
+
+.trainer-social a:hover {
+  transform: translateY(-3px);
 }
 
 .trainer-info {
-  padding: 1.5rem;
+  padding: 25px;
+  text-align: center;
 }
 
 .trainer-info h2 {
   font-size: 1.5rem;
-  margin-bottom: 0.25rem;
+  margin-bottom: 5px;
+  color: #FFD700;
 }
 
 .trainer-role {
-  color: #ff6b35;
-  font-weight: bold;
-  margin-bottom: 1rem;
+  color: #aaa;
+  margin-bottom: 15px;
 }
 
 .trainer-specialization,
 .trainer-experience,
 .trainer-certifications {
-  margin: 0.5rem 0;
-  color: #555;
+  margin: 10px 0;
+  color: #ccc;
+  font-size: 0.9rem;
 }
 
 .book-session-btn {
   width: 100%;
-  margin-top: 1rem;
-  padding: 10px;
-  background: #ff6b35;
-  color: white;
+  margin-top: 20px;
+  padding: 12px;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
   border: none;
-  border-radius: 8px;
-  cursor: pointer;
+  border-radius: 50px;
+  color: #000;
   font-weight: bold;
-  transition: background 0.3s;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
 .book-session-btn:hover {
-  background: #e55a2b;
-}
-
-.trainer-cta {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  text-align: center;
-  padding: 4rem 2rem;
-  color: white;
-}
-
-.trainer-cta h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.cta-button {
-  display: inline-block;
-  margin-top: 1.5rem;
-  padding: 12px 30px;
-  background: white;
-  color: #667eea;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: bold;
-  transition: transform 0.3s;
-}
-
-.cta-button:hover {
   transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .trainers-grid {
+    grid-template-columns: 1fr;
+  }
 }
