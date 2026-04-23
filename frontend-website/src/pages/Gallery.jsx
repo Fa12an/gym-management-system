@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import gsap from 'gsap';
 import './Gallery.css';
 
 function Gallery() {
@@ -15,12 +16,24 @@ function Gallery() {
     { id: 8, url: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b', title: 'Smoothie Bar', category: 'Facility' }
   ];
 
-  const categories = ['All', 'Equipment', 'Training', 'Studio', 'Facility'];
-  const [activeCategory, setActiveCategory] = useState('All');
-
-  const filteredImages = activeCategory === 'All' 
-    ? galleryImages 
-    : galleryImages.filter(img => img.category === activeCategory);
+  useEffect(() => {
+    gsap.utils.toArray('.gallery-item').forEach((item, i) => {
+      gsap.fromTo(item,
+        { opacity: 0, scale: 0.8 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 0.5,
+          delay: i * 0.05,
+          scrollTrigger: {
+            trigger: item,
+            start: 'top 90%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+    });
+  }, []);
 
   return (
     <div className="gallery-page">
@@ -29,32 +42,22 @@ function Gallery() {
         <p>Take a virtual tour of our state-of-the-art facility</p>
       </div>
 
-      <div className="gallery-filters">
-        {categories.map(category => (
-          <button
-            key={category}
-            className={`filter-btn ${activeCategory === category ? 'active' : ''}`}
-            onClick={() => setActiveCategory(category)}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
-
-      <div className="gallery-grid">
-        {filteredImages.map(image => (
-          <div 
-            key={image.id} 
-            className="gallery-item"
-            onClick={() => setSelectedImage(image)}
-          >
-            <img src={`${image.url}?ixlib=rb-4.0.3&w=400&h=300&fit=crop`} alt={image.title} />
-            <div className="gallery-overlay">
-              <h3>{image.title}</h3>
-              <p>{image.category}</p>
+      <div className="container">
+        <div className="gallery-grid">
+          {galleryImages.map(image => (
+            <div 
+              key={image.id} 
+              className="gallery-item"
+              onClick={() => setSelectedImage(image)}
+            >
+              <img src={`${image.url}?ixlib=rb-4.0.3&w=400&h=300&fit=crop`} alt={image.title} />
+              <div className="gallery-overlay">
+                <h3>{image.title}</h3>
+                <p>{image.category}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {selectedImage && (
@@ -66,12 +69,6 @@ function Gallery() {
           </div>
         </div>
       )}
-
-      <div className="gallery-cta">
-        <h2>Experience It Yourself!</h2>
-        <p>Book a free trial and visit our gym in person</p>
-        <a href="/contact" className="cta-button">Book Free Trial →</a>
-      </div>
     </div>
   );
 }
