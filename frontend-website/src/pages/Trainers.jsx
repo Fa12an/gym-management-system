@@ -1,17 +1,22 @@
+import { useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Trainers.css';
+
+gsap.registerPlugin(ScrollTrigger);
 
 function Trainers() {
   const trainers = [
     {
-      name: 'John Smith',
+      name: 'Rajesh Kumar',
       role: 'Head Trainer',
       specialization: 'Strength & Conditioning',
-      experience: '10+ years',
+      experience: '12+ years',
       image: 'https://images.unsplash.com/photo-1567013127542-490d757e51fc?ixlib=rb-4.0.3',
-      certifications: 'Certified Personal Trainer (NASM), CrossFit Level 2'
+      certifications: 'Certified Personal Trainer (NASM), CrossFit Level 3'
     },
     {
-      name: 'Sarah Johnson',
+      name: 'Priya Sharma',
       role: 'Yoga & Wellness Coach',
       specialization: 'Yoga, Flexibility, Meditation',
       experience: '8+ years',
@@ -19,7 +24,7 @@ function Trainers() {
       certifications: 'RYT 500, Yoga Alliance, Pilates Instructor'
     },
     {
-      name: 'Mike Chen',
+      name: 'Vikram Singh',
       role: 'Fitness Coach',
       specialization: 'Weight Loss, HIIT, Cardio',
       experience: '7+ years',
@@ -27,7 +32,7 @@ function Trainers() {
       certifications: 'ACE Certified, Nutrition Specialist'
     },
     {
-      name: 'Lisa Anderson',
+      name: 'Anjali Mehta',
       role: 'Nutrition Expert',
       specialization: 'Diet Planning, Sports Nutrition',
       experience: '6+ years',
@@ -36,6 +41,25 @@ function Trainers() {
     }
   ];
 
+  useEffect(() => {
+    gsap.utils.toArray('.trainer-card').forEach((card, i) => {
+      gsap.fromTo(card,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          delay: i * 0.1,
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+    });
+  }, []);
+
   return (
     <div className="trainers-page">
       <div className="page-header">
@@ -43,28 +67,29 @@ function Trainers() {
         <p>Learn from the best in the industry</p>
       </div>
 
-      <div className="trainers-grid">
-        {trainers.map((trainer, index) => (
-          <div key={index} className="trainer-card">
-            <div className="trainer-image">
-              <img src={trainer.image} alt={trainer.name} />
+      <div className="container">
+        <div className="trainers-grid">
+          {trainers.map((trainer, index) => (
+            <div key={index} className="trainer-card">
+              <div className="trainer-image">
+                <img src={trainer.image} alt={trainer.name} />
+                <div className="trainer-social">
+                  <a href="#"><span>📘</span></a>
+                  <a href="#"><span>📷</span></a>
+                  <a href="#"><span>▶️</span></a>
+                </div>
+              </div>
+              <div className="trainer-info">
+                <h2>{trainer.name}</h2>
+                <p className="trainer-role">{trainer.role}</p>
+                <p className="trainer-specialization">🎯 {trainer.specialization}</p>
+                <p className="trainer-experience">⭐ {trainer.experience} Experience</p>
+                <p className="trainer-certifications">📜 {trainer.certifications}</p>
+                <button className="book-session-btn">Book a Session</button>
+              </div>
             </div>
-            <div className="trainer-info">
-              <h2>{trainer.name}</h2>
-              <p className="trainer-role">{trainer.role}</p>
-              <p className="trainer-specialization">🎯 {trainer.specialization}</p>
-              <p className="trainer-experience">⭐ {trainer.experience} Experience</p>
-              <p className="trainer-certifications">📜 {trainer.certifications}</p>
-              <button className="book-session-btn">Book a Session</button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="trainer-cta">
-        <h2>Ready to Transform Your Body?</h2>
-        <p>Get personalized training from our expert coaches</p>
-        <a href="/contact" className="cta-button">Start Your Journey →</a>
+          ))}
+        </div>
       </div>
     </div>
   );
