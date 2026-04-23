@@ -1,6 +1,6 @@
 function WhatsAppButton() {
-  const phoneNumber = "919876543210"; // Replace with your number
-  const message = "Hi! I'm interested in joining Fitness Pro Gym. Can you help me?";
+  const phoneNumber = "919535668280";
+  const message = "Hi! I'm interested in joining Muscle Universe Gym. Can you help me?";
   
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
   
