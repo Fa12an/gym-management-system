@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import gsap from 'gsap';
+import { useState } from 'react';
 import './Gallery.css';
 
 function Gallery() {
@@ -15,25 +14,6 @@ function Gallery() {
     { id: 7, url: 'https://images.unsplash.com/photo-1594381898411-846e7d193883', title: 'Locker Room', category: 'Facility' },
     { id: 8, url: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b', title: 'Smoothie Bar', category: 'Facility' }
   ];
-
-  useEffect(() => {
-    gsap.utils.toArray('.gallery-item').forEach((item, i) => {
-      gsap.fromTo(item,
-        { opacity: 0, scale: 0.8 },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.5,
-          delay: i * 0.05,
-          scrollTrigger: {
-            trigger: item,
-            start: 'top 90%',
-            toggleActions: 'play none none reverse'
-          }
-        }
-      );
-    });
-  }, []);
 
   return (
     <div className="gallery-page">
