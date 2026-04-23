@@ -18,6 +18,7 @@ function Navbar({ isAuthenticated, userRole, onLogout }) {
   const navLinks = [
     { path: '/', label: 'Home' },
     { path: '/about', label: 'About' },
+    { path: '/plans', label: 'Membership' },
     { path: '/trainers', label: 'Trainers' },
     { path: '/gallery', label: 'Gallery' },
     { path: '/join', label: 'Join Us' },
