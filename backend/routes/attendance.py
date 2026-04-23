@@ -1,45 +1,27 @@
 from fastapi import APIRouter
-from database import attendance_collection, members_collection
-from datetime import date, datetime
-from bson import ObjectId
+from database import attendance_collection
+from datetime import datetime
 
 router = APIRouter()
 
-@router.post("/attendance/{member_id}")
+@router.get("/api/attendance/today")
+def get_today_attendance():
+    today = datetime.now().strftime("%Y-%m-%d")
+    attendance = []
+    for record in attendance_collection.find({"date": today}):
+        attendance.append({
+            "member_id": str(record["_id"]),
+            "date": record["date"],
+            "time": str(record.get("timestamp", datetime.now()))
+        })
+    return {"date": today, "count": len(attendance), "members": attendance}
+
+@router.post("/api/attendance/{member_id}")
 def mark_attendance(member_id: str):
-    today = date.today().strftime("%Y-%m-%d")
-    
-    # Check if already marked
-    existing = attendance_collection.find_one({
-        "member_id": member_id,
-        "date": today
-    })
-    
-    if existing:
-        return {"message": "Attendance already marked for today"}
-    
+    today = datetime.now().strftime("%Y-%d-%m")
     attendance_collection.insert_one({
         "member_id": member_id,
         "date": today,
         "timestamp": datetime.now()
     })
-    return {"message": "Attendance marked successfully"}
-
-@router.get("/attendance/today")
-def get_today_attendance():
-    today = date.today().strftime("%Y-%m-%d")
-    attendance = []
-    
-    for record in attendance_collection.find({"date": today}):
-        member = members_collection.find_one({"_id": ObjectId(record["member_id"])})
-        attendance.append({
-            "member_id": record["member_id"],
-            "name": member["name"] if member else "Unknown",
-            "time": str(record["timestamp"])
-        })
-    
-    return {
-        "date": today,
-        "count": len(attendance),
-        "members": attendance
-    }
+    return {"message": "Attendance marked"}
