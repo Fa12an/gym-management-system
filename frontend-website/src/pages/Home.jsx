@@ -1,77 +1,53 @@
-import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useEffect, useState } from 'react';
 import './Home.css';
 
-gsap.registerPlugin(ScrollTrigger);
-
 function Home() {
-  const heroRef = useRef(null);
-  const heroTitleRef = useRef(null);
-  const statsRef = useRef(null);
+  const [stats, setStats] = useState({
+    members: 0,
+    trainers: 0,
+    classes: 0,
+    years: 0
+  });
 
   useEffect(() => {
-    // Hero animations
-    gsap.fromTo(heroTitleRef.current,
-      { opacity: 0, y: 50 },
-      { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }
-    );
-
-    // Stats counter animation
-    const counters = document.querySelectorAll('.stat-number');
-    counters.forEach(counter => {
-      const updateCount = () => {
-        const target = parseInt(counter.getAttribute('data-target'));
-        let count = 0;
-        const increment = target / 50;
-        
-        const timer = setInterval(() => {
-          count += increment;
-          if (count >= target) {
-            counter.textContent = target;
-            clearInterval(timer);
-          } else {
-            counter.textContent = Math.floor(count);
-          }
-        }, 40);
+    // Animate stats counter
+    const animateValue = (start, end, duration, setter) => {
+      let startTimestamp = null;
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        setter(Math.floor(progress * (end - start) + start));
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        }
       };
-      
-      const observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          updateCount();
+      window.requestAnimationFrame(step);
+    };
+
+    // Start counter animations when in view
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateValue(0, 5000, 2000, (val) => setStats(prev => ({ ...prev, members: val })));
+          animateValue(0, 50, 2000, (val) => setStats(prev => ({ ...prev, trainers: val })));
+          animateValue(0, 20, 2000, (val) => setStats(prev => ({ ...prev, classes: val })));
+          animateValue(0, 8, 2000, (val) => setStats(prev => ({ ...prev, years: val })));
           observer.disconnect();
         }
-      }, { threshold: 0.5 });
-      
-      observer.observe(counter);
-    });
+      });
+    }, { threshold: 0.5 });
 
-    // Scroll animations for features
-    gsap.utils.toArray('.feature-card, .price-card, .testimonial-card').forEach((card, i) => {
-      gsap.fromTo(card,
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          delay: i * 0.1,
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 80%',
-            toggleActions: 'play none none reverse'
-          }
-        }
-      );
-    });
+    const statsSection = document.querySelector('.stats');
+    if (statsSection) observer.observe(statsSection);
   }, []);
 
   return (
     <div className="home">
       {/* Hero Section */}
-      <section className="hero" ref={heroRef}>
+      <section className="hero">
         <div className="hero-overlay"></div>
-        <div className="hero-content" ref={heroTitleRef}>
+        <div className="hero-content">
           <h1 className="hero-title">
             TRANSFORM YOUR<br />
             <span>BODY, TRANSFORM</span><br />
@@ -96,19 +72,19 @@ function Home() {
         <div className="container">
           <div className="stats-grid">
             <div className="stat-item">
-              <div className="stat-number" data-target="5000">0</div>
+              <div className="stat-number">{stats.members}+</div>
               <div className="stat-label">Happy Members</div>
             </div>
             <div className="stat-item">
-              <div className="stat-number" data-target="50">0</div>
+              <div className="stat-number">{stats.trainers}+</div>
               <div className="stat-label">Expert Trainers</div>
             </div>
             <div className="stat-item">
-              <div className="stat-number" data-target="20">0</div>
+              <div className="stat-number">{stats.classes}+</div>
               <div className="stat-label">Classes Weekly</div>
             </div>
             <div className="stat-item">
-              <div className="stat-number" data-target="8">0</div>
+              <div className="stat-number">{stats.years}+</div>
               <div className="stat-label">Years Excellence</div>
             </div>
           </div>
