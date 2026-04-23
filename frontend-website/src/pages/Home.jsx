@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import './Home.css';
 
 function Home() {
@@ -9,6 +9,32 @@ function Home() {
     classes: 0,
     years: 0
   });
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const videoRef = useRef(null);
+
+  const testimonials = [
+    {
+      name: "Rahul Sharma",
+      role: "Member since 2023",
+      text: "Best gym in BTM Layout! The trainers are very supportive and helped me lose 15 kgs in 3 months.",
+      rating: 5,
+      image: "https://randomuser.me/api/portraits/men/1.jpg"
+    },
+    {
+      name: "Priya Patel",
+      role: "Member since 2022",
+      text: "Amazing atmosphere and top-notch equipment. The personal training sessions are life-changing!",
+      rating: 5,
+      image: "https://randomuser.me/api/portraits/women/1.jpg"
+    },
+    {
+      name: "Amit Kumar",
+      role: "Member since 2023",
+      text: "Joined 6 months ago and I'm in the best shape of my life. Thank you Muscle Universe!",
+      rating: 5,
+      image: "https://randomuser.me/api/portraits/men/2.jpg"
+    }
+  ];
 
   useEffect(() => {
     // Animate stats counter
@@ -38,52 +64,136 @@ function Home() {
       });
     }, { threshold: 0.5 });
 
-    const statsSection = document.querySelector('.stats');
+    const statsSection = document.querySelector('.stats-section');
     if (statsSection) observer.observe(statsSection);
-  }, []);
+
+    // Auto-rotate testimonials
+    const interval = setInterval(() => {
+      setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [testimonials.length]);
 
   return (
     <div className="home">
-      {/* Hero Section */}
-      <section className="hero">
-        <div className="hero-overlay"></div>
-        <div className="hero-content">
-          <h1 className="hero-title">
-            TRANSFORM YOUR<br />
-            <span>BODY, TRANSFORM</span><br />
+      {/* Hero Section with Video Background */}
+      <section className="hero-premium">
+        <div className="hero-video-overlay"></div>
+        <div className="hero-bg-gradient"></div>
+        <div className="hero-content-premium">
+          <div className="hero-badge">#1 Gym in BTM Layout</div>
+          <h1 className="hero-title-premium">
+            TRANSFORM YOUR
+            <span className="gradient-text"> BODY, TRANSFORM</span>
             YOUR LIFE
           </h1>
-          <p className="hero-subtitle">
-            Join Muscle Universe Gym - The premier fitness destination in BTM Layout, Bengaluru
+          <p className="hero-subtitle-premium">
+            Join the most premium fitness destination in Bengaluru. State-of-the-art equipment, 
+            expert trainers, and a community that pushes you to be your best.
           </p>
-          <div className="hero-buttons">
-            <Link to="/join" className="btn">Start Your Journey →</Link>
-            <a href="#features" className="btn btn-outline">Explore More</a>
+          <div className="hero-buttons-premium">
+            <Link to="/join" className="btn-primary-premium">
+              Start Free Trial <span>→</span>
+            </Link>
+            <Link to="/plans" className="btn-secondary-premium">
+              View Plans
+            </Link>
+          </div>
+          <div className="hero-stats">
+            <div className="hero-stat">
+              <div className="hero-stat-number">5000+</div>
+              <div className="hero-stat-label">Happy Members</div>
+            </div>
+            <div className="hero-stat-divider"></div>
+            <div className="hero-stat">
+              <div className="hero-stat-number">50+</div>
+              <div className="hero-stat-label">Expert Trainers</div>
+            </div>
+            <div className="hero-stat-divider"></div>
+            <div className="hero-stat">
+              <div className="hero-stat-number">20+</div>
+              <div className="hero-stat-label">Classes Weekly</div>
+            </div>
           </div>
         </div>
-        <div className="hero-scroll">
-          <span>Scroll Down</span>
-          <div className="scroll-arrow"></div>
+        <div className="hero-scroll-indicator">
+          <span>Scroll to explore</span>
+          <div className="scroll-mouse"></div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="stats">
+      {/* Features Section with Glassmorphism */}
+      <section className="features-premium">
         <div className="container">
-          <div className="stats-grid">
-            <div className="stat-item">
+          <div className="section-header">
+            <span className="section-tag">Why Choose Us</span>
+            <h2 className="section-title-premium">Experience the<span className="gradient-text"> Difference</span></h2>
+            <p className="section-subtitle">We provide everything you need to achieve your fitness goals</p>
+          </div>
+          <div className="features-grid-premium">
+            <div className="feature-card-premium">
+              <div className="feature-icon-premium">🏋️</div>
+              <h3>Modern Equipment</h3>
+              <p>Latest fitness equipment from top brands with regular maintenance and upgrades</p>
+              <div className="feature-hover-effect"></div>
+            </div>
+            <div className="feature-card-premium">
+              <div className="feature-icon-premium">👨‍🏫</div>
+              <h3>Expert Trainers</h3>
+              <p>Certified professionals with years of experience in fitness training and nutrition</p>
+              <div className="feature-hover-effect"></div>
+            </div>
+            <div className="feature-card-premium">
+              <div className="feature-icon-premium">💪</div>
+              <h3>Personalized Plans</h3>
+              <p>Custom workout and diet plans tailored to your specific goals and lifestyle</p>
+              <div className="feature-hover-effect"></div>
+            </div>
+            <div className="feature-card-premium">
+              <div className="feature-icon-premium">🕐</div>
+              <h3>Flexible Hours</h3>
+              <p>Open from 5:30 AM to 10:30 PM, 7 days a week to fit your schedule</p>
+              <div className="feature-hover-effect"></div>
+            </div>
+            <div className="feature-card-premium">
+              <div className="feature-icon-premium">🧘</div>
+              <h3>Diverse Classes</h3>
+              <p>Yoga, Zumba, CrossFit, HIIT, and more group classes for all fitness levels</p>
+              <div className="feature-hover-effect"></div>
+            </div>
+            <div className="feature-card-premium">
+              <div className="feature-icon-premium">🤝</div>
+              <h3>Community</h3>
+              <p>Supportive and motivating fitness community that keeps you accountable</p>
+              <div className="feature-hover-effect"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section with Parallax */}
+      <section className="stats-section">
+        <div className="stats-overlay"></div>
+        <div className="container">
+          <div className="stats-grid-premium">
+            <div className="stat-card-premium">
+              <div className="stat-icon">👥</div>
               <div className="stat-number">{stats.members}+</div>
               <div className="stat-label">Happy Members</div>
             </div>
-            <div className="stat-item">
+            <div className="stat-card-premium">
+              <div className="stat-icon">🏆</div>
               <div className="stat-number">{stats.trainers}+</div>
               <div className="stat-label">Expert Trainers</div>
             </div>
-            <div className="stat-item">
+            <div className="stat-card-premium">
+              <div className="stat-icon">📅</div>
               <div className="stat-number">{stats.classes}+</div>
               <div className="stat-label">Classes Weekly</div>
             </div>
-            <div className="stat-item">
+            <div className="stat-card-premium">
+              <div className="stat-icon">⭐</div>
               <div className="stat-number">{stats.years}+</div>
               <div className="stat-label">Years Excellence</div>
             </div>
@@ -91,101 +201,12 @@ function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="features">
-        <div className="container">
-          <h2 className="section-title">Why Choose Us?</h2>
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-icon">🏋️</div>
-              <h3>Modern Equipment</h3>
-              <p>Latest fitness equipment from top brands with regular maintenance</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">👨‍🏫</div>
-              <h3>Expert Trainers</h3>
-              <p>Certified professionals with years of experience in fitness training</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">💪</div>
-              <h3>Personalized Plans</h3>
-              <p>Custom workout and diet plans tailored to your specific goals</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">🕐</div>
-              <h3>Flexible Hours</h3>
-              <p>Open from 5:30 AM to 10:30 PM, 7 days a week</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">🧘</div>
-              <h3>Diverse Classes</h3>
-              <p>Yoga, Zumba, CrossFit, HIIT, and more group classes</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">🤝</div>
-              <h3>Community</h3>
-              <p>Supportive and motivating fitness community environment</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section className="pricing">
-        <div className="container">
-          <h2 className="section-title">Membership Plans</h2>
-          <div className="pricing-grid">
-            <div className="price-card">
-              <div className="price-badge">Basic</div>
-              <h3>Monthly</h3>
-              <div className="price">₹1,499<span>/month</span></div>
-              <ul>
-                <li>✓ Full Gym Access</li>
-                <li>✓ Basic Training Guidance</li>
-                <li>✓ Locker Facility</li>
-                <li>✓ Free WiFi</li>
-                <li>✓ Changing Rooms</li>
-              </ul>
-              <Link to="/join" className="btn">Get Started</Link>
-            </div>
-            <div className="price-card popular">
-              <div className="price-badge">Most Popular</div>
-              <h3>Quarterly</h3>
-              <div className="price">₹3,999<span>/3 months</span></div>
-              <ul>
-                <li>✓ Full Gym Access</li>
-                <li>✓ Personal Training (2x/week)</li>
-                <li>✓ Locker + Towel Service</li>
-                <li>✓ Diet Consultation</li>
-                <li>✓ Body Composition Analysis</li>
-              </ul>
-              <Link to="/join" className="btn">Get Started</Link>
-            </div>
-            <div className="price-card">
-              <div className="price-badge">Best Value</div>
-              <h3>Yearly</h3>
-              <div className="price">₹12,999<span>/year</span></div>
-              <ul>
-                <li>✓ Full Gym Access</li>
-                <li>✓ Unlimited Personal Training</li>
-                <li>✓ Premium Locker</li>
-                <li>✓ Custom Diet Plan</li>
-                <li>✓ Monthly Progress Tracking</li>
-              </ul>
-              <Link to="/join" className="btn">Get Started</Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="cta-section">
-        <div className="container">
-          <div className="cta-content">
-            <h2>Ready to Start Your Fitness Journey?</h2>
-            <p>Get 3 days FREE trial. No commitment required!</p>
-            <Link to="/join" className="btn">Book Free Trial →</Link>
-          </div>
+      {/* CTA Banner */}
+      <section className="cta-banner">
+        <div className="cta-banner-content">
+          <h2>Ready to Start Your Fitness Journey?</h2>
+          <p>Get 3 days FREE trial. No commitment required!</p>
+          <Link to="/join" className="btn-cta">Book Your Free Trial →</Link>
         </div>
       </section>
     </div>
