@@ -1,45 +1,154 @@
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Home.css';
 
+gsap.registerPlugin(ScrollTrigger);
+
 function Home() {
+  const heroRef = useRef(null);
+  const heroTitleRef = useRef(null);
+  const statsRef = useRef(null);
+
+  useEffect(() => {
+    // Hero animations
+    gsap.fromTo(heroTitleRef.current,
+      { opacity: 0, y: 50 },
+      { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }
+    );
+
+    // Stats counter animation
+    const counters = document.querySelectorAll('.stat-number');
+    counters.forEach(counter => {
+      const updateCount = () => {
+        const target = parseInt(counter.getAttribute('data-target'));
+        let count = 0;
+        const increment = target / 50;
+        
+        const timer = setInterval(() => {
+          count += increment;
+          if (count >= target) {
+            counter.textContent = target;
+            clearInterval(timer);
+          } else {
+            counter.textContent = Math.floor(count);
+          }
+        }, 40);
+      };
+      
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          updateCount();
+          observer.disconnect();
+        }
+      }, { threshold: 0.5 });
+      
+      observer.observe(counter);
+    });
+
+    // Scroll animations for features
+    gsap.utils.toArray('.feature-card, .price-card, .testimonial-card').forEach((card, i) => {
+      gsap.fromTo(card,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          delay: i * 0.1,
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+    });
+  }, []);
+
   return (
-    <div>
+    <div className="home">
       {/* Hero Section */}
-      <section className="hero">
-        <div className="hero-content">
-          <h1>Welcome to <span>MUSCLE UNIVERSE</span></h1>
-          <p>Where Champions Are Made. Join the best gym in BTM Layout, Bengaluru!</p>
+      <section className="hero" ref={heroRef}>
+        <div className="hero-overlay"></div>
+        <div className="hero-content" ref={heroTitleRef}>
+          <h1 className="hero-title">
+            TRANSFORM YOUR<br />
+            <span>BODY, TRANSFORM</span><br />
+            YOUR LIFE
+          </h1>
+          <p className="hero-subtitle">
+            Join Muscle Universe Gym - The premier fitness destination in BTM Layout, Bengaluru
+          </p>
           <div className="hero-buttons">
-            <Link to="/book-trial" className="btn">Book Free Trial</Link>
-            <a href="#contact" className="btn btn-outline">Contact Us</a>
+            <Link to="/join" className="btn">Start Your Journey →</Link>
+            <a href="#features" className="btn btn-outline">Explore More</a>
+          </div>
+        </div>
+        <div className="hero-scroll">
+          <span>Scroll Down</span>
+          <div className="scroll-arrow"></div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="stats">
+        <div className="container">
+          <div className="stats-grid">
+            <div className="stat-item">
+              <div className="stat-number" data-target="5000">0</div>
+              <div className="stat-label">Happy Members</div>
+            </div>
+            <div className="stat-item">
+              <div className="stat-number" data-target="50">0</div>
+              <div className="stat-label">Expert Trainers</div>
+            </div>
+            <div className="stat-item">
+              <div className="stat-number" data-target="20">0</div>
+              <div className="stat-label">Classes Weekly</div>
+            </div>
+            <div className="stat-item">
+              <div className="stat-number" data-target="8">0</div>
+              <div className="stat-label">Years Excellence</div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="features">
+      <section id="features" className="features">
         <div className="container">
-          <h2 className="section-title">Why Choose Muscle Universe?</h2>
+          <h2 className="section-title">Why Choose Us?</h2>
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-icon">🏋️</div>
               <h3>Modern Equipment</h3>
-              <p>Latest fitness equipment from top brands</p>
+              <p>Latest fitness equipment from top brands with regular maintenance</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">👨‍🏫</div>
               <h3>Expert Trainers</h3>
-              <p>Certified trainers with years of experience</p>
+              <p>Certified professionals with years of experience in fitness training</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">💪</div>
               <h3>Personalized Plans</h3>
-              <p>Custom workout plans for your goals</p>
+              <p>Custom workout and diet plans tailored to your specific goals</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">🕐</div>
               <h3>Flexible Hours</h3>
-              <p>Open 5 AM to 11 PM daily</p>
+              <p>Open from 5:30 AM to 10:30 PM, 7 days a week</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon">🧘</div>
+              <h3>Diverse Classes</h3>
+              <p>Yoga, Zumba, CrossFit, HIIT, and more group classes</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon">🤝</div>
+              <h3>Community</h3>
+              <p>Supportive and motivating fitness community environment</p>
             </div>
           </div>
         </div>
@@ -51,101 +160,55 @@ function Home() {
           <h2 className="section-title">Membership Plans</h2>
           <div className="pricing-grid">
             <div className="price-card">
+              <div className="price-badge">Basic</div>
               <h3>Monthly</h3>
               <div className="price">₹1,499<span>/month</span></div>
               <ul>
                 <li>✓ Full Gym Access</li>
-                <li>✓ Basic Training</li>
+                <li>✓ Basic Training Guidance</li>
                 <li>✓ Locker Facility</li>
                 <li>✓ Free WiFi</li>
+                <li>✓ Changing Rooms</li>
               </ul>
-              <Link to="/book-trial" className="btn">Book Trial</Link>
+              <Link to="/join" className="btn">Get Started</Link>
             </div>
             <div className="price-card popular">
-              <div className="popular-badge">Most Popular</div>
+              <div className="price-badge">Most Popular</div>
               <h3>Quarterly</h3>
               <div className="price">₹3,999<span>/3 months</span></div>
               <ul>
                 <li>✓ Full Gym Access</li>
                 <li>✓ Personal Training (2x/week)</li>
-                <li>✓ Locker + Towel</li>
+                <li>✓ Locker + Towel Service</li>
                 <li>✓ Diet Consultation</li>
+                <li>✓ Body Composition Analysis</li>
               </ul>
-              <Link to="/book-trial" className="btn">Book Trial</Link>
+              <Link to="/join" className="btn">Get Started</Link>
             </div>
             <div className="price-card">
+              <div className="price-badge">Best Value</div>
               <h3>Yearly</h3>
               <div className="price">₹12,999<span>/year</span></div>
               <ul>
                 <li>✓ Full Gym Access</li>
                 <li>✓ Unlimited Personal Training</li>
                 <li>✓ Premium Locker</li>
-                <li>✓ Diet Plan + Supplements</li>
+                <li>✓ Custom Diet Plan</li>
+                <li>✓ Monthly Progress Tracking</li>
               </ul>
-              <Link to="/book-trial" className="btn">Book Trial</Link>
+              <Link to="/join" className="btn">Get Started</Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Location Section */}
-      <section className="location" id="contact">
+      {/* CTA Section */}
+      <section className="cta-section">
         <div className="container">
-          <h2 className="section-title">Find Us</h2>
-          <div className="location-grid">
-            <div className="location-info">
-              <h3>📍 Our Address</h3>
-              <p>No 50, JKN ARCADE, 3rd & 4th Floor,<br />
-              1st Cross, 27th Main, BTM 1st Stage,<br />
-              Bengaluru, Karnataka 560068</p>
-              
-              <h3>📞 Contact</h3>
-              <p>Phone: 95356 68280</p>
-              
-              <h3>🕐 Opening Hours</h3>
-              <p>Mon-Fri: 5:00 AM - 11:00 PM</p>
-              <p>Saturday: 6:00 AM - 10:00 PM</p>
-              <p>Sunday: 7:00 AM - 9:00 PM</p>
-              
-              <h3>💳 Payment Methods</h3>
-              <p>Cash • Google Pay</p>
-              
-              <h3>🅿️ Parking</h3>
-              <p>Free parking lot available • On-site parking</p>
-            </div>
-            <div className="location-map">
-              <iframe
-                title="Muscle Universe Gym Location"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.0!2d77.6075!3d12.9165!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae15c8a5c0e0f1%3A0x8f8f8f8f8f8f8f8!2sBTM%20Layout%2C%20Bengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
-                width="100%"
-                height="400"
-                style={{ border: 0 }}
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="testimonials">
-        <div className="container">
-          <h2 className="section-title">What Our Members Say</h2>
-          <div className="testimonials-grid">
-            <div className="testimonial-card">
-              <p>"Best gym in BTM Layout! The trainers are very supportive and helped me lose 15 kgs in 3 months."</p>
-              <h4>- Rahul Sharma</h4>
-            </div>
-            <div className="testimonial-card">
-              <p>"Amazing atmosphere and top-notch equipment. Highly recommend Muscle Universe!"</p>
-              <h4>- Priya Patel</h4>
-            </div>
-            <div className="testimonial-card">
-              <p>"Joined 6 months ago and I'm in the best shape of my life. Thank you Muscle Universe!"</p>
-              <h4>- Amit Kumar</h4>
-            </div>
+          <div className="cta-content">
+            <h2>Ready to Start Your Fitness Journey?</h2>
+            <p>Get 3 days FREE trial. No commitment required!</p>
+            <Link to="/join" className="btn">Book Free Trial →</Link>
           </div>
         </div>
       </section>
