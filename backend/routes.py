@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from database import bookings_collection, members_collection, users_collection
-from models import BookingRequest, Member, LoginRequest
 from datetime import datetime
 from bson import ObjectId
 from passlib.context import CryptContext
@@ -46,15 +45,16 @@ def require_admin(user=Depends(get_current_user)):
 # ============ PUBLIC ROUTES ============
 
 @router.post("/api/book-trial")
-def book_trial(booking: BookingRequest):
-    booking_dict = booking.dict()
-    result = bookings_collection.insert_one(booking_dict)
+def book_trial(booking: dict):
+    booking["created_at"] = datetime.now()
+    booking["status"] = "pending"
+    result = bookings_collection.insert_one(booking)
     return {"message": "Trial booked successfully!", "id": str(result.inserted_id)}
 
 @router.post("/api/login")
-def login(login: LoginRequest):
-    user = users_collection.find_one({"email": login.email})
-    if not user or not pwd_context.verify(login.password, user["password"]):
+def login(login: dict):
+    user = users_collection.find_one({"email": login["email"]})
+    if not user or not pwd_context.verify(login["password"], user["password"]):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
     token = create_token(user["email"])
@@ -101,13 +101,13 @@ def get_members(admin=Depends(require_admin)):
     return members
 
 @router.post("/api/admin/members")
-def add_member(member: Member, admin=Depends(require_admin)):
-    result = members_collection.insert_one(member.dict())
+def add_member(member: dict, admin=Depends(require_admin)):
+    result = members_collection.insert_one(member)
     return {"message": "Member added", "id": str(result.inserted_id)}
 
 @router.put("/api/admin/members/{member_id}")
-def update_member(member_id: str, member: Member, admin=Depends(require_admin)):
-    members_collection.update_one({"_id": ObjectId(member_id)}, {"$set": member.dict()})
+def update_member(member_id: str, member: dict, admin=Depends(require_admin)):
+    members_collection.update_one({"_id": ObjectId(member_id)}, {"$set": member})
     return {"message": "Member updated"}
 
 @router.delete("/api/admin/members/{member_id}")
