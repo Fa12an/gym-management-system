@@ -7,6 +7,7 @@ import About from './pages/About';
 import Trainers from './pages/Trainers';
 import Gallery from './pages/Gallery';
 import Join from './pages/Join';
+import Plans from './pages/Plans';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import Footer from './components/Footer';
@@ -70,6 +71,7 @@ function App() {
         <Route path="/trainers" element={<Trainers />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/join" element={<Join />} />
+        <Route path="/plans" element={<Plans />} />
         <Route path="/admin-login" element={
           isAuthenticated ? <Navigate to="/admin-dashboard" /> : <AdminLogin onLogin={checkAuth} />
         } />
