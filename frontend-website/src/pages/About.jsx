@@ -1,29 +1,6 @@
-import { useEffect } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './About.css';
 
-gsap.registerPlugin(ScrollTrigger);
-
 function About() {
-  useEffect(() => {
-    gsap.utils.toArray('.about-card').forEach((card, i) => {
-      gsap.fromTo(card,
-        { opacity: 0, x: i % 2 === 0 ? -50 : 50 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.8,
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 80%',
-            toggleActions: 'play none none reverse'
-          }
-        }
-      );
-    });
-  }, []);
-
   return (
     <div className="about-page">
       <div className="page-header">
