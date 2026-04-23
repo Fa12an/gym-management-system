@@ -1,0 +1,129 @@
+.join-page {
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+.join-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  padding: 60px 0;
+}
+
+.join-info {
+  background: linear-gradient(135deg, #1a1a1a 0%, #141414 100%);
+  padding: 40px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.join-info h2 {
+  color: #FFD700;
+  margin: 20px 0 15px;
+  font-size: 1.5rem;
+}
+
+.join-info h2:first-child {
+  margin-top: 0;
+}
+
+.join-info ul {
+  list-style: none;
+}
+
+.join-info ul li {
+  margin: 12px 0;
+  color: #ccc;
+}
+
+.join-form {
+  background: linear-gradient(135deg, #1a1a1a 0%, #141414 100%);
+  padding: 40px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.join-form h2 {
+  color: #FFD700;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.join-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.join-form input,
+.join-form select {
+  padding: 12px 15px;
+  background: #0a0a0a;
+  border: 1px solid #333;
+  border-radius: 10px;
+  color: white;
+  font-size: 1rem;
+}
+
+.join-form input:focus,
+.join-form select:focus {
+  outline: none;
+  border-color: #FFD700;
+}
+
+.error-message {
+  background: rgba(220, 53, 69, 0.2);
+  color: #dc3545;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.terms {
+  margin-top: 15px;
+  font-size: 0.8rem;
+  color: #888;
+  text-align: center;
+}
+
+.success-section {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.success-card {
+  background: linear-gradient(135deg, #1a1a1a 0%, #141414 100%);
+  padding: 50px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 500px;
+  margin: 0 20px;
+}
+
+.success-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+.success-card h2 {
+  color: #FFD700;
+  margin-bottom: 15px;
+}
+
+.success-card p {
+  color: #ccc;
+  margin: 10px 0;
+}
+
+@media (max-width: 768px) {
+  .join-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .join-info,
+  .join-form {
+    padding: 25px;
+  }
+}
