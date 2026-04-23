@@ -1,36 +1,38 @@
+import os
 from pymongo import MongoClient
 from dotenv import load_dotenv
-import os
 import logging
 
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Load environment variables
 load_dotenv()
 
-# Get MongoDB URI from environment
 MONGO_URI = os.getenv("MONGO_URI")
 
 if not MONGO_URI:
-    logger.error("❌ MONGO_URI environment variable not set!")
-    raise ValueError("MONGO_URI environment variable is required")
+    raise ValueError("MONGO_URI environment variable is not set!")
 
-try:
-    # Connect to MongoDB
-    client = MongoClient(MONGO_URI)
-    db = client["gymdb"]
-    
-    # Test connection
-    client.admin.command('ping')
-    logger.info("✅ Connected to MongoDB successfully!")
-    
-except Exception as e:
-    logger.error(f"❌ Failed to connect to MongoDB: {e}")
-    raise
+client = MongoClient(MONGO_URI)
+db = client["muscleuniverse"]
 
 # Collections
+bookings_collection = db["bookings"]
 members_collection = db["members"]
-leads_collection = db["leads"]
-payments_collection = db["payments"]
 users_collection = db["users"]
-attendance_collection = db["attendance"]
+
+logger.info("✅ Connected to MongoDB!")
+
+# Create admin user if not exists
+admin_email = "gymadmin@gmail.com"
+if not users_collection.find_one({"email": admin_email}):
+    from passlib.context import CryptContext
+    pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+    
+    users_collection.insert_one({
+        "email": admin_email,
+        "password": pwd_context.hash("gymadmin321#"),
+        "role": "admin",
+        "name": "Gym Admin"
+    })
+    logger.info("✅ Admin user created!")
