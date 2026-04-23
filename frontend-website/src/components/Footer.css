@@ -1,8 +1,9 @@
 .footer {
-  background-color: #1a1a2e;
+  background: #000000;
   color: white;
   padding: 3rem 0 1rem 0;
   margin-top: 4rem;
+  border-top: 2px solid #ffd700;
 }
 
 .footer-container {
@@ -16,7 +17,7 @@
 
 .footer-section h3 {
   margin-bottom: 1rem;
-  color: #ff6b35;
+  color: #ffd700;
 }
 
 .footer-section ul {
@@ -33,7 +34,7 @@
 }
 
 .footer-section a:hover {
-  color: #ff6b35;
+  color: #ffd700;
 }
 
 .footer-bottom {
