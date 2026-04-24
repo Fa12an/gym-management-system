@@ -38,15 +38,37 @@ function Home() {
       });
     }, { threshold: 0.5 });
 
-    const statsSection = document.querySelector('.stats-section');
+    const statsSection = document.querySelector('.home-stats-premium');
     if (statsSection) observer.observe(statsSection);
+
+    // Animate feature cards on scroll
+    const cards = document.querySelectorAll('.feature-card-premium');
+    const cardObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    cards.forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(30px)';
+      card.style.transition = 'all 0.6s ease';
+      cardObserver.observe(card);
+    });
+
+    return () => {
+      cardObserver.disconnect();
+    };
   }, []);
 
   return (
-    <div className="home">
-      {/* Hero Section with Background Image */}
-      <section className="hero-premium">
-        <div className="hero-bg-image"></div>
+    <div className="home-premium">
+      {/* Hero Section */}
+      <section className="home-hero-premium">
+        <div className="hero-bg-premium"></div>
         <div className="hero-overlay-premium"></div>
         <div className="hero-gradient-premium"></div>
         <div className="hero-content-premium">
@@ -73,19 +95,19 @@ function Home() {
               <div className="hero-stat-number">{stats.members}+</div>
               <div className="hero-stat-label">Happy Members</div>
             </div>
-            <div className="hero-stat-divider-premium"></div>
+            <div className="hero-stat-divider"></div>
             <div className="hero-stat-premium">
               <div className="hero-stat-number">{stats.trainers}+</div>
               <div className="hero-stat-label">Expert Trainers</div>
             </div>
-            <div className="hero-stat-divider-premium"></div>
+            <div className="hero-stat-divider"></div>
             <div className="hero-stat-premium">
               <div className="hero-stat-number">20+</div>
               <div className="hero-stat-label">Classes Weekly</div>
             </div>
           </div>
         </div>
-        <div className="hero-scroll-indicator">
+        <div className="hero-scroll">
           <span>Scroll to explore</span>
           <div className="scroll-mouse"></div>
         </div>
@@ -96,72 +118,72 @@ function Home() {
         <div className="container">
           <div className="section-header">
             <span className="section-tag">Why Choose Us</span>
-            <h2 className="section-title-premium">Experience the<span className="gradient-text"> Difference</span></h2>
+            <h2 className="section-title">Experience the <span className="gradient-text">Difference</span></h2>
             <p className="section-subtitle">We provide everything you need to achieve your fitness goals</p>
           </div>
           <div className="features-grid-premium">
             <div className="feature-card-premium">
-              <div className="feature-icon-premium">🏋️</div>
+              <div className="feature-icon">🏋️</div>
               <h3>Modern Equipment</h3>
               <p>Latest fitness equipment from top brands with regular maintenance and upgrades</p>
-              <div className="feature-hover-effect"></div>
+              <div className="feature-hover"></div>
             </div>
             <div className="feature-card-premium">
-              <div className="feature-icon-premium">👨‍🏫</div>
+              <div className="feature-icon">👨‍🏫</div>
               <h3>Expert Trainers</h3>
               <p>Certified professionals with years of experience in fitness training and nutrition</p>
-              <div className="feature-hover-effect"></div>
+              <div className="feature-hover"></div>
             </div>
             <div className="feature-card-premium">
-              <div className="feature-icon-premium">💪</div>
+              <div className="feature-icon">💪</div>
               <h3>Personalized Plans</h3>
               <p>Custom workout and diet plans tailored to your specific goals and lifestyle</p>
-              <div className="feature-hover-effect"></div>
+              <div className="feature-hover"></div>
             </div>
             <div className="feature-card-premium">
-              <div className="feature-icon-premium">🕐</div>
+              <div className="feature-icon">🕐</div>
               <h3>Flexible Hours</h3>
               <p>Open from 5:30 AM to 10:30 PM, 7 days a week to fit your schedule</p>
-              <div className="feature-hover-effect"></div>
+              <div className="feature-hover"></div>
             </div>
             <div className="feature-card-premium">
-              <div className="feature-icon-premium">🧘</div>
+              <div className="feature-icon">🧘</div>
               <h3>Diverse Classes</h3>
               <p>Yoga, Zumba, CrossFit, HIIT, and more group classes for all fitness levels</p>
-              <div className="feature-hover-effect"></div>
+              <div className="feature-hover"></div>
             </div>
             <div className="feature-card-premium">
-              <div className="feature-icon-premium">🤝</div>
+              <div className="feature-icon">🤝</div>
               <h3>Community</h3>
               <p>Supportive and motivating fitness community that keeps you accountable</p>
-              <div className="feature-hover-effect"></div>
+              <div className="feature-hover"></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stats Section with Parallax */}
-      <section className="stats-section">
-        <div className="stats-bg-image"></div>
+      {/* Stats Section */}
+      <section className="home-stats-premium">
+        <div className="stats-bg"></div>
         <div className="stats-overlay"></div>
         <div className="container">
           <div className="stats-grid-premium">
-            <div className="stat-card-premium">
+            <div className="stat-card">
               <div className="stat-icon">👥</div>
               <div className="stat-number">{stats.members}+</div>
               <div className="stat-label">Happy Members</div>
             </div>
-            <div className="stat-card-premium">
+            <div className="stat-card">
               <div className="stat-icon">🏆</div>
               <div className="stat-number">{stats.trainers}+</div>
               <div className="stat-label">Expert Trainers</div>
             </div>
-            <div className="stat-card-premium">
+            <div className="stat-card">
               <div className="stat-icon">📅</div>
               <div className="stat-number">{stats.classes}+</div>
               <div className="stat-label">Classes Weekly</div>
             </div>
-            <div className="stat-card-premium">
+            <div className="stat-card">
               <div className="stat-icon">⭐</div>
               <div className="stat-number">{stats.years}+</div>
               <div className="stat-label">Years Excellence</div>
@@ -171,11 +193,11 @@ function Home() {
       </section>
 
       {/* CTA Banner */}
-      <section className="cta-banner">
-        <div className="cta-banner-content">
+      <section className="cta-premium">
+        <div className="cta-content">
           <h2>Ready to Start Your Fitness Journey?</h2>
           <p>Get 3 days FREE trial. No commitment required!</p>
-          <Link to="/join" className="btn-cta">Book Your Free Trial →</Link>
+          <Link to="/join" className="btn-primary">Book Your Free Trial →</Link>
         </div>
       </section>
     </div>
