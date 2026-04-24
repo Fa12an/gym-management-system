@@ -1,7 +1,7 @@
 .footer-premium {
-  background: #1a1a1a;
+  background: #1a1a2e;
   padding: 60px 0 20px;
-  border-top: 1px solid rgba(255, 215, 0, 0.1);
+  border-top: 1px solid rgba(245, 166, 35, 0.2);
 }
 
 .footer-container-premium {
@@ -34,10 +34,7 @@
 }
 
 .footer-logo h3 span {
-  background: linear-gradient(135deg, #FFD700, #FFA500);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: #f5a623;
 }
 
 .footer-col p {
@@ -54,25 +51,25 @@
 .social-icon {
   width: 40px;
   height: 40px;
-  background: rgba(255, 215, 0, 0.1);
+  background: rgba(245, 166, 35, 0.1);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  color: #FFD700;
+  color: #f5a623;
   font-size: 1.2rem;
   transition: all 0.3s ease;
 }
 
 .social-icon:hover {
-  background: #FFD700;
-  color: #000;
+  background: #f5a623;
+  color: #1a1a2e;
   transform: translateY(-3px);
 }
 
 .footer-col h4 {
-  color: #FFD700;
+  color: #f5a623;
   margin-bottom: 20px;
   font-size: 1.1rem;
 }
@@ -93,21 +90,22 @@
 }
 
 .footer-col ul li a:hover {
-  color: #FFD700;
+  color: #f5a623;
 }
 
 .payment-methods {
   display: flex;
   gap: 15px;
   margin-top: 20px;
+  flex-wrap: wrap;
 }
 
 .payment-methods span {
   padding: 5px 12px;
-  background: rgba(255, 215, 0, 0.1);
+  background: rgba(245, 166, 35, 0.1);
   border-radius: 20px;
   font-size: 0.8rem;
-  color: #FFD700;
+  color: #f5a623;
 }
 
 .footer-bottom {
