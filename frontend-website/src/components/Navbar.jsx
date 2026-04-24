@@ -2,13 +2,11 @@ import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import './Navbar.css';
 
-// Try different possible paths for the logo
+// Try multiple possible paths
 const logoPaths = [
-  process.env.PUBLIC_URL + '/assets/images/Muscle_Universe_Logo.jpeg',
-  process.env.PUBLIC_URL + '/assets/images/logo.jpeg',
-  process.env.PUBLIC_URL + '/images/Muscle_Universe_Logo.jpeg',
-  process.env.PUBLIC_URL + '/logo.jpeg',
   '/assets/images/Muscle_Universe_Logo.jpeg',
+  '/Muscle_Universe_Logo.jpeg',
+  '/logo.jpeg',
 ];
 
 function Navbar() {
@@ -34,18 +32,15 @@ function Navbar() {
     { path: '/join', label: 'Join Us' },
   ];
 
-  // Use the first valid logo path
-  const logoSrc = logoError ? null : logoPaths[0];
-
   return (
     <nav className={`navbar-premium ${scrolled ? 'scrolled' : ''}`}>
       <div className="nav-container-premium">
         <Link to="/" className="logo-premium" onClick={() => setMobileMenuOpen(false)}>
-          {!logoError && logoSrc && (
+          {!logoError && (
             <img 
-              src={logoSrc} 
+              src={logoPaths[0]} 
               alt="Muscle Universe Logo" 
-              className="logo-img-premium" 
+              className="logo-img-premium"
               onError={() => setLogoError(true)}
             />
           )}
