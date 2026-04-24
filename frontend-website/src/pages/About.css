@@ -1,6 +1,7 @@
 .about-premium {
   min-height: 100vh;
   padding-top: 80px;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
 }
 
 /* About Hero */
@@ -8,7 +9,7 @@
   position: relative;
   padding: 100px 20px;
   text-align: center;
-  background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+  background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%);
   overflow: hidden;
 }
 
@@ -18,7 +19,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(255,215,0,0.1) 0%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(245, 166, 35, 0.15) 0%, transparent 70%);
 }
 
 .about-hero-content {
@@ -29,11 +30,35 @@
 .about-hero h1 {
   font-size: 3.5rem;
   margin-bottom: 20px;
+  animation: fadeInDown 0.8s ease;
 }
 
 .about-hero p {
   font-size: 1.2rem;
   color: #ccc;
+  animation: fadeInUp 0.8s ease;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Story Card */
@@ -42,21 +67,26 @@
 }
 
 .about-card-premium {
-  background: linear-gradient(135deg, rgba(30,30,30,0.95) 0%, rgba(20,20,20,0.95) 100%);
+  background: linear-gradient(135deg, rgba(30,30,46,0.95) 0%, rgba(20,20,36,0.95) 100%);
   padding: 50px;
   border-radius: 24px;
-  border: 1px solid rgba(255,215,0,0.1);
+  border: 1px solid rgba(245, 166, 35, 0.2);
   transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .about-card-premium:hover {
-  border-color: rgba(255,215,0,0.3);
+  border-color: rgba(245, 166, 35, 0.5);
   transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 .about-card-premium h2 {
-  color: #FFD700;
-  margin-bottom: 20px;
+  background: linear-gradient(135deg, #f5a623, #d4891a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 25px;
   font-size: 2rem;
 }
 
@@ -64,6 +94,7 @@
   color: #ccc;
   line-height: 1.8;
   margin-bottom: 15px;
+  font-size: 1.05rem;
 }
 
 /* Mission Vision Grid */
@@ -75,33 +106,42 @@
 }
 
 .mv-card-premium {
-  background: linear-gradient(135deg, rgba(30,30,30,0.95) 0%, rgba(20,20,20,0.95) 100%);
+  background: linear-gradient(135deg, rgba(30,30,46,0.95) 0%, rgba(20,20,36,0.95) 100%);
   padding: 40px 30px;
   border-radius: 20px;
   text-align: center;
   transition: all 0.3s ease;
-  border: 1px solid rgba(255,215,0,0.1);
+  border: 1px solid rgba(245, 166, 35, 0.2);
+  backdrop-filter: blur(10px);
 }
 
 .mv-card-premium:hover {
   transform: translateY(-10px);
-  border-color: #FFD700;
+  border-color: #f5a623;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 .mv-icon {
-  font-size: 3rem;
+  font-size: 3.5rem;
   margin-bottom: 20px;
+  display: inline-block;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 .mv-card-premium h3 {
-  color: #FFD700;
+  color: #f5a623;
   margin-bottom: 15px;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
 }
 
 .mv-card-premium p {
-  color: #aaa;
-  line-height: 1.6;
+  color: #bbb;
+  line-height: 1.7;
 }
 
 /* Stats Section */
@@ -110,26 +150,48 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
   margin: 60px 0;
-  padding: 60px 0;
-  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  padding: 60px 40px;
+  background: linear-gradient(135deg, #f5a623 0%, #d4891a 100%);
   border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-stats-premium::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .about-stat-card {
   text-align: center;
+  position: relative;
+  z-index: 2;
 }
 
 .about-stat-number {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   font-weight: 800;
-  color: #000;
+  color: #1a1a2e;
   margin-bottom: 10px;
 }
 
 .about-stat-label {
   font-size: 1rem;
-  color: #333;
-  font-weight: 500;
+  color: #1a1a2e;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 /* Reviews Section */
@@ -145,10 +207,10 @@
 .section-tag {
   display: inline-block;
   padding: 6px 18px;
-  background: rgba(255,215,0,0.1);
-  border: 1px solid rgba(255,215,0,0.3);
+  background: rgba(245, 166, 35, 0.1);
+  border: 1px solid rgba(245, 166, 35, 0.3);
   border-radius: 50px;
-  color: #FFD700;
+  color: #f5a623;
   font-size: 0.85rem;
   font-weight: 600;
   margin-bottom: 20px;
@@ -163,6 +225,7 @@
 
 .section-header p {
   color: #aaa;
+  font-size: 1.1rem;
 }
 
 .reviews-grid {
@@ -172,16 +235,18 @@
 }
 
 .review-card-premium {
-  background: linear-gradient(135deg, rgba(30,30,30,0.95) 0%, rgba(20,20,20,0.95) 100%);
+  background: linear-gradient(135deg, rgba(30,30,46,0.95) 0%, rgba(20,20,36,0.95) 100%);
   padding: 30px;
   border-radius: 20px;
-  border: 1px solid rgba(255,215,0,0.1);
+  border: 1px solid rgba(245, 166, 35, 0.2);
   transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .review-card-premium:hover {
   transform: translateY(-5px);
-  border-color: rgba(255,215,0,0.3);
+  border-color: rgba(245, 166, 35, 0.5);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
 }
 
 .review-header {
@@ -195,38 +260,41 @@
 }
 
 .reviewer-avatar {
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, #FFD700, #FFA500);
+  width: 55px;
+  height: 55px;
+  background: linear-gradient(135deg, #f5a623, #d4891a);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: bold;
-  color: #000;
+  color: #1a1a2e;
 }
 
 .reviewer-info h4 {
-  color: #FFD700;
+  color: #f5a623;
   margin-bottom: 5px;
+  font-size: 1.1rem;
 }
 
 .review-rating {
-  font-size: 0.9rem;
+  font-size: 1rem;
   letter-spacing: 2px;
+  color: #FFD700;
 }
 
 .review-text {
   color: #ccc;
   line-height: 1.7;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   font-style: italic;
+  font-size: 0.95rem;
 }
 
 .review-verified {
   color: #28a745;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   display: flex;
   align-items: center;
   gap: 5px;
@@ -247,10 +315,16 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 30px;
-  background: linear-gradient(135deg, rgba(30,30,30,0.95) 0%, rgba(20,20,20,0.95) 100%);
+  background: linear-gradient(135deg, rgba(30,30,46,0.95) 0%, rgba(20,20,36,0.95) 100%);
   border-radius: 24px;
   overflow: hidden;
-  border: 1px solid rgba(255,215,0,0.1);
+  border: 1px solid rgba(245, 166, 35, 0.2);
+  transition: all 0.3s ease;
+}
+
+.location-card-premium:hover {
+  border-color: rgba(245, 166, 35, 0.5);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 .location-details-premium {
@@ -258,9 +332,9 @@
 }
 
 .location-details-premium h3 {
-  color: #FFD700;
-  margin: 20px 0 10px;
-  font-size: 1.2rem;
+  color: #f5a623;
+  margin: 25px 0 15px;
+  font-size: 1.3rem;
 }
 
 .location-details-premium h3:first-child {
@@ -269,12 +343,23 @@
 
 .location-details-premium p {
   color: #ccc;
-  margin: 8px 0;
+  margin: 10px 0;
   line-height: 1.6;
 }
 
 .location-map-premium {
   height: 450px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .about-hero h1 {
+    font-size: 2.8rem;
+  }
+  
+  .section-header h2 {
+    font-size: 2rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -288,6 +373,8 @@
   
   .about-stats-premium {
     grid-template-columns: repeat(2, 1fr);
+    padding: 40px 20px;
+    gap: 20px;
   }
   
   .reviews-grid {
@@ -304,5 +391,27 @@
   
   .section-header h2 {
     font-size: 1.8rem;
+  }
+  
+  .about-hero p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-stats-premium {
+    grid-template-columns: 1fr;
+  }
+  
+  .about-stat-number {
+    font-size: 2rem;
+  }
+  
+  .location-details-premium {
+    padding: 25px;
+  }
+  
+  .review-card-premium {
+    padding: 20px;
   }
 }
