@@ -25,19 +25,21 @@ function Navbar({ isAuthenticated, userRole, onLogout }) {
   ];
 
   return (
-    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
-      <div className="nav-container">
-        <Link to="/" className="logo">
+    <nav className={`navbar-premium ${scrolled ? 'scrolled' : ''}`}>
+      <div className="nav-container-premium">
+        <Link to="/" className="logo-premium" onClick={() => setMobileMenuOpen(false)}>
           <span className="logo-icon">💪</span>
-          <span className="logo-text">MUSCLE <span>UNIVERSE</span></span>
+          <div className="logo-text-premium">
+            MUSCLE <span>UNIVERSE</span>
+          </div>
         </Link>
 
-        <div className={`nav-menu ${mobileMenuOpen ? 'active' : ''}`}>
+        <div className={`nav-menu-premium ${mobileMenuOpen ? 'active' : ''}`}>
           {navLinks.map(link => (
             <Link
               key={link.path}
               to={link.path}
-              className={`nav-link ${location.pathname === link.path ? 'active' : ''}`}
+              className={`nav-link-premium ${location.pathname === link.path ? 'active' : ''}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               {link.label}
@@ -46,7 +48,7 @@ function Navbar({ isAuthenticated, userRole, onLogout }) {
           
           {isAuthenticated && userRole === 'admin' ? (
             <>
-              <Link to="/admin-dashboard" className="nav-link admin-link">Admin Panel</Link>
+              <Link to="/admin-dashboard" className="nav-link-premium admin-link">Admin</Link>
               <button onClick={onLogout} className="nav-logout-btn">Logout</button>
             </>
           ) : (
