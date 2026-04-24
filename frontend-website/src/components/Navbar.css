@@ -28,15 +28,16 @@
 .logo-premium {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   text-decoration: none;
 }
 
 .logo-img-premium {
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
-  border-radius: 6px;
+  border-radius: 8px;
+  display: block;
 }
 
 .logo-text-premium {
@@ -87,35 +88,6 @@
   color: #f5a623;
 }
 
-.admin-link {
-  color: #f5a623;
-}
-
-.nav-admin-btn,
-.nav-logout-btn {
-  padding: 6px 18px;
-  background: #f5a623;
-  border: none;
-  border-radius: 25px;
-  color: #1a1a2e;
-  font-weight: 700;
-  font-size: 0.85rem;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.nav-logout-btn {
-  background: linear-gradient(135deg, #dc3545, #c82333);
-  color: white;
-}
-
-.nav-admin-btn:hover,
-.nav-logout-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(245, 166, 35, 0.3);
-}
-
 .mobile-menu-btn {
   display: none;
   flex-direction: column;
@@ -160,18 +132,12 @@
   }
   
   .logo-img-premium {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
   }
   
   .nav-link-premium {
     font-size: 1rem;
-  }
-  
-  .nav-admin-btn,
-  .nav-logout-btn {
-    padding: 8px 25px;
-    font-size: 0.9rem;
   }
 }
 
@@ -185,10 +151,13 @@
     font-size: 0.85rem;
   }
   
-  .nav-admin-btn,
-  .nav-logout-btn {
-    padding: 5px 15px;
-    font-size: 0.8rem;
+  .logo-img-premium {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .logo-text-premium {
+    font-size: 0.95rem;
   }
 }
 
@@ -213,5 +182,25 @@
   
   .nav-link-premium {
     font-size: 1rem;
+  }
+}
+
+/* Small Mobile Devices */
+@media (max-width: 480px) {
+  .logo-img-premium {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .logo-text-premium {
+    font-size: 0.8rem;
+  }
+  
+  .logo-premium {
+    gap: 6px;
+  }
+  
+  .nav-container-premium {
+    padding: 0 12px;
   }
 }
