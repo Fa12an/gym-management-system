@@ -1,24 +1,43 @@
 .gallery-page {
   min-height: 100vh;
   padding-top: 80px;
-  background: #0a0a0a;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
 }
 
 .page-header {
   text-align: center;
-  padding: 60px 20px;
+  padding: 80px 20px;
   background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(245, 166, 35, 0.1) 0%, transparent 70%);
 }
 
 .page-header h1 {
   font-size: 3rem;
-  color: #f5a623;
+  background: linear-gradient(135deg, #f5a623, #d4891a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   margin-bottom: 20px;
+  position: relative;
+  z-index: 2;
 }
 
 .page-header p {
   font-size: 1.2rem;
   color: #ccc;
+  position: relative;
+  z-index: 2;
 }
 
 .gallery-filters {
@@ -27,27 +46,35 @@
   gap: 1rem;
   flex-wrap: wrap;
   padding: 2rem;
-  background: #1a1a2e;
+  background: rgba(26, 26, 46, 0.9);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 80px;
+  z-index: 100;
 }
 
 .filter-btn {
-  padding: 10px 25px;
+  padding: 10px 28px;
   border: none;
-  background: rgba(255,255,255,0.1);
-  border-radius: 30px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 40px;
   cursor: pointer;
   transition: all 0.3s;
   font-weight: 600;
   color: white;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
 }
 
 .filter-btn.active {
-  background: #f5a623;
+  background: linear-gradient(135deg, #f5a623, #d4891a);
   color: #1a1a2e;
+  box-shadow: 0 5px 15px rgba(245, 166, 35, 0.3);
 }
 
 .filter-btn:hover:not(.active) {
-  background: rgba(245, 166, 35, 0.3);
+  background: rgba(245, 166, 35, 0.2);
+  transform: translateY(-2px);
 }
 
 .gallery-grid {
@@ -56,7 +83,7 @@
   padding: 3rem 2rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 1.5rem;
+  gap: 1.8rem;
 }
 
 .gallery-item {
@@ -65,6 +92,13 @@
   border-radius: 16px;
   cursor: pointer;
   aspect-ratio: 4/3;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.gallery-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 .gallery-item img {
@@ -83,9 +117,9 @@
   bottom: -100%;
   left: 0;
   right: 0;
-  background: linear-gradient(transparent, rgba(0,0,0,0.9));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.95));
   color: white;
-  padding: 1.5rem;
+  padding: 1.8rem;
   transition: bottom 0.3s ease;
 }
 
@@ -95,8 +129,9 @@
 
 .gallery-overlay h3 {
   color: #f5a623;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   font-size: 1.2rem;
+  font-weight: 700;
 }
 
 .gallery-overlay p {
@@ -110,35 +145,55 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,0.95);
+  background: rgba(0, 0, 0, 0.98);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2000;
   cursor: pointer;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .lightbox-content {
   position: relative;
   max-width: 90%;
   max-height: 90%;
+  animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .lightbox-content img {
   width: 100%;
   height: auto;
-  border-radius: 10px;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 }
 
 .lightbox-content h3 {
   color: #f5a623;
   text-align: center;
   margin-top: 20px;
+  font-size: 1.3rem;
 }
 
 .close-btn {
   position: absolute;
-  top: -40px;
+  top: -50px;
   right: 0;
   background: none;
   border: none;
@@ -146,43 +201,71 @@
   font-size: 2rem;
   cursor: pointer;
   transition: color 0.3s;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .close-btn:hover {
   color: #f5a623;
+  transform: scale(1.1);
 }
 
 .gallery-cta {
   text-align: center;
-  padding: 4rem 2rem;
+  padding: 5rem 2rem;
   background: linear-gradient(135deg, #f5a623 0%, #d4891a 100%);
+  margin-top: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-cta::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
 }
 
 .gallery-cta h2 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   color: #1a1a2e;
   margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
 }
 
 .gallery-cta p {
   color: #1a1a2e;
   margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  position: relative;
+  z-index: 2;
 }
 
 .cta-button {
   display: inline-block;
-  padding: 12px 30px;
+  padding: 14px 35px;
   background: #1a1a2e;
   color: #f5a623;
   text-decoration: none;
   border-radius: 50px;
   font-weight: bold;
   transition: all 0.3s;
+  position: relative;
+  z-index: 2;
 }
 
 .cta-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  background: #2a2a4e;
 }
 
 @media (max-width: 768px) {
@@ -190,12 +273,26 @@
     font-size: 2rem;
   }
   
+  .page-header p {
+    font-size: 1rem;
+  }
+  
   .gallery-grid {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     padding: 2rem 1rem;
+    gap: 1rem;
   }
   
   .gallery-cta h2 {
     font-size: 1.5rem;
+  }
+  
+  .filter-btn {
+    padding: 8px 20px;
+    font-size: 0.8rem;
+  }
+  
+  .gallery-filters {
+    padding: 1rem;
   }
 }
