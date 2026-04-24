@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from './components/Navbar';
@@ -8,13 +8,26 @@ import Trainers from './pages/Trainers';
 import Gallery from './pages/Gallery';
 import Join from './pages/Join';
 import Plans from './pages/Plans';
-import AdminLogin from './pages/AdminLogin';
-import AdminDashboard from './pages/AdminDashboard';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
 import BackToTop from './components/BackToTop';
 import API_URL from './config';
 import './App.css';
+
+// ScrollToTop component to fix page scroll position
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant'
+    });
+  }, [pathname]);
+
+  return null;
+}
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -64,7 +77,8 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navbar isAuthenticated={isAuthenticated} userRole={userRole} onLogout={handleLogout} />
+      <ScrollToTop />
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -72,12 +86,6 @@ function App() {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/join" element={<Join />} />
         <Route path="/plans" element={<Plans />} />
-        <Route path="/admin-login" element={
-          isAuthenticated ? <Navigate to="/admin-dashboard" /> : <AdminLogin onLogin={checkAuth} />
-        } />
-        <Route path="/admin-dashboard" element={
-          isAuthenticated && userRole === 'admin' ? <AdminDashboard /> : <Navigate to="/admin-login" />
-        } />
       </Routes>
       <WhatsAppButton />
       <BackToTop />
