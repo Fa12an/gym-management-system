@@ -31,13 +31,22 @@ function BackToTop() {
         borderRadius: '50%',
         border: 'none',
         cursor: 'pointer',
-        fontSize: '20px',
+        fontSize: '24px',
         zIndex: 1000,
-        transition: 'all 0.3s',
-        boxShadow: '0 4px 10px rgba(0,0,0,0.3)'
+        transition: 'all 0.3s ease',
+        boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
       }}
-      onMouseEnter={(e) => e.target.style.transform = 'translateY(-3px)'}
-      onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
+      onMouseEnter={(e) => {
+        e.target.style.transform = 'translateY(-3px)';
+        e.target.style.boxShadow = '0 8px 25px rgba(255,215,0,0.4)';
+      }}
+      onMouseLeave={(e) => {
+        e.target.style.transform = 'translateY(0)';
+        e.target.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
+      }}
     >
       ↑
     </button>
