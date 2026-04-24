@@ -2,12 +2,19 @@ import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import './Navbar.css';
 
-// Use require for logo
-const logo = process.env.PUBLIC_URL + '/assets/images/Muscle_Universe_Logo.jpeg';
+// Try different possible paths for the logo
+const logoPaths = [
+  process.env.PUBLIC_URL + '/assets/images/Muscle_Universe_Logo.jpeg',
+  process.env.PUBLIC_URL + '/assets/images/logo.jpeg',
+  process.env.PUBLIC_URL + '/images/Muscle_Universe_Logo.jpeg',
+  process.env.PUBLIC_URL + '/logo.jpeg',
+  '/assets/images/Muscle_Universe_Logo.jpeg',
+];
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [logoError, setLogoError] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -27,11 +34,21 @@ function Navbar() {
     { path: '/join', label: 'Join Us' },
   ];
 
+  // Use the first valid logo path
+  const logoSrc = logoError ? null : logoPaths[0];
+
   return (
     <nav className={`navbar-premium ${scrolled ? 'scrolled' : ''}`}>
       <div className="nav-container-premium">
         <Link to="/" className="logo-premium" onClick={() => setMobileMenuOpen(false)}>
-          <img src={logo} alt="Muscle Universe Logo" className="logo-img-premium" onError={(e) => { e.target.style.display = 'none' }} />
+          {!logoError && logoSrc && (
+            <img 
+              src={logoSrc} 
+              alt="Muscle Universe Logo" 
+              className="logo-img-premium" 
+              onError={() => setLogoError(true)}
+            />
+          )}
           <div className="logo-text-premium">
             MUSCLE <span>UNIVERSE</span>
           </div>
