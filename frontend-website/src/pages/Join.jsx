@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import './Join.css';
 
 function Join() {
@@ -7,7 +9,7 @@ function Join() {
     phone: '',
     email: '',
     goal: '',
-    preferred_date: '',
+    preferred_date: null,
     preferred_time: ''
   });
   const [submitted, setSubmitted] = useState(false);
@@ -61,28 +63,46 @@ function Join() {
     setError('');
   };
 
+  const handleDateChange = (date) => {
+    setFormData({
+      ...formData,
+      preferred_date: date
+    });
+    setError('');
+  };
+
+  const formatDate = (date) => {
+    if (!date) return '';
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  const formatTime = (time) => {
+    if (!time) return '';
+    return time;
+  };
+
   const formatWhatsAppMessage = (data) => {
-    return `*🏋️‍♂️ MUSCLE UNIVERSE GYM - NEW TRIAL BOOKING 🏋️‍♀️*%0A%0A
-*📋 MEMBER DETAILS*%0A
-━━━━━━━━━━━━━━━━━━━━%0A
-*Name:* ${data.name}%0A
-*Phone:* ${data.phone}%0A
-*Email:* ${data.email}%0A
-━━━━━━━━━━━━━━━━━━━━%0A%0A
-*🎯 FITNESS GOAL*%0A
-${data.goal}%0A%0A
-*📅 PREFERRED DATE & TIME*%0A
-*Date:* ${data.preferred_date}%0A
-*Time:* ${data.preferred_time}%0A%0A
-━━━━━━━━━━━━━━━━━━━━%0A
-*⏰ Booking Time:* ${new Date().toLocaleString()}%0A
-*Status:* Pending Confirmation%0A
-━━━━━━━━━━━━━━━━━━━━%0A%0A
-*✅ Next Steps:*%0A
-1. Call the customer to confirm%0A
-2. Schedule a gym tour%0A
-3. Assign a trainer%0A%0A
-*📞 Contact: 95356 68280*`;
+    const formattedDate = formatDate(data.preferred_date);
+    
+    return `Dear Muscle Universe Gym Team,
+
+My name is ${data.name}, and I am interested in booking a one-day free trial session at your gym. My fitness goal is ${data.goal}, and would appreciate the opportunity to explore your facilities, equipment, and training environment.
+
+I would like to know if it would be possible to schedule the trial session on ${formattedDate} at ${data.preferred_time}. Please let me know if this time is convenient or if there are alternative slots available.
+
+For your reference, my details are as follows:
+
+Name: ${data.name}
+Phone: ${data.phone}
+Email: ${data.email}
+
+I look forward to your response and hope to visit your gym soon.
+
+Kind regards,
+${data.name}`;
   };
 
   const handleSubmit = async (e) => {
@@ -100,7 +120,8 @@ ${data.goal}%0A%0A
     try {
       const phoneNumber = "919535668280"; // Gym WhatsApp number
       const message = formatWhatsAppMessage(formData);
-      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
       
       // Open WhatsApp in new tab
       window.open(whatsappUrl, '_blank');
@@ -114,7 +135,7 @@ ${data.goal}%0A%0A
         phone: '',
         email: '',
         goal: '',
-        preferred_date: '',
+        preferred_date: null,
         preferred_time: ''
       });
       
@@ -131,10 +152,10 @@ ${data.goal}%0A%0A
         <div className="success-premium">
           <div className="success-card-premium">
             <div className="success-icon">✅</div>
-            <h2>Trial Booked Successfully!</h2>
+            <h2>Trial Request Sent Successfully!</h2>
             <p>Thank you for choosing Muscle Universe Gym!</p>
             <p>WhatsApp will open with your booking details.</p>
-            <p className="success-note">Our team will contact you within 24 hours to confirm your trial.</p>
+            <p className="success-note">Our team will review your request and respond within 24 hours.</p>
             <button onClick={() => setSubmitted(false)} className="btn-primary">Book Another Trial</button>
           </div>
         </div>
@@ -219,7 +240,7 @@ ${data.goal}%0A%0A
               </div>
               <div className="form-group">
                 <select name="goal" value={formData.goal} onChange={handleChange} required>
-                  <option value="">Select Your Goal</option>
+                  <option value="">Select Your Fitness Goal</option>
                   <option value="Weight Loss">🏋️ Weight Loss</option>
                   <option value="Muscle Gain">💪 Muscle Gain</option>
                   <option value="General Fitness">🎯 General Fitness</option>
@@ -227,34 +248,44 @@ ${data.goal}%0A%0A
                   <option value="Flexibility & Mobility">🧘 Flexibility & Mobility</option>
                 </select>
               </div>
-              <div className="form-row">
-                <div className="form-group">
-                  <input
-                    type="date"
-                    name="preferred_date"
-                    placeholder="Preferred Date"
-                    value={formData.preferred_date}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <select name="preferred_time" value={formData.preferred_time} onChange={handleChange} required>
-                    <option value="">Preferred Time</option>
-                    <option value="6:00 AM - 8:00 AM">🌅 6:00 AM - 8:00 AM</option>
-                    <option value="8:00 AM - 10:00 AM">☀️ 8:00 AM - 10:00 AM</option>
-                    <option value="4:00 PM - 6:00 PM">🌤️ 4:00 PM - 6:00 PM</option>
-                    <option value="6:00 PM - 8:00 PM">🌙 6:00 PM - 8:00 PM</option>
-                    <option value="8:00 PM - 10:00 PM">🌃 8:00 PM - 10:00 PM</option>
-                  </select>
-                </div>
+              <div className="form-group date-picker-group">
+                <label className="date-picker-label">📅 Select Preferred Date</label>
+                <DatePicker
+                  selected={formData.preferred_date}
+                  onChange={handleDateChange}
+                  dateFormat="dd/MM/yyyy"
+                  minDate={new Date()}
+                  placeholderText="Click to select a date"
+                  className="date-picker-input"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <select name="preferred_time" value={formData.preferred_time} onChange={handleChange} required>
+                  <option value="">Select Preferred Time</option>
+                  <option value="6:00 AM">🌅 6:00 AM</option>
+                  <option value="7:00 AM">☀️ 7:00 AM</option>
+                  <option value="8:00 AM">☀️ 8:00 AM</option>
+                  <option value="9:00 AM">☀️ 9:00 AM</option>
+                  <option value="10:00 AM">🌤️ 10:00 AM</option>
+                  <option value="11:00 AM">🌤️ 11:00 AM</option>
+                  <option value="12:00 PM">☀️ 12:00 PM</option>
+                  <option value="1:00 PM">🌤️ 1:00 PM</option>
+                  <option value="2:00 PM">🌤️ 2:00 PM</option>
+                  <option value="3:00 PM">🌤️ 3:00 PM</option>
+                  <option value="4:00 PM">🌤️ 4:00 PM</option>
+                  <option value="5:00 PM">🌙 5:00 PM</option>
+                  <option value="6:00 PM">🌙 6:00 PM</option>
+                  <option value="7:00 PM">🌙 7:00 PM</option>
+                  <option value="8:00 PM">🌃 8:00 PM</option>
+                </select>
               </div>
               <button type="submit" className="btn-primary" disabled={loading}>
-                {loading ? 'Sending...' : 'Book Free Trial →'}
+                {loading ? 'Sending Request...' : 'Book Free Trial →'}
               </button>
             </form>
             <p className="terms">*No commitment required. Cancel anytime.</p>
-            <p className="whatsapp-note">📱 Your booking details will be sent to our WhatsApp. We'll respond within 24 hours.</p>
+            <p className="whatsapp-note">📱 Your booking request will be sent to our WhatsApp. We'll respond within 24 hours.</p>
           </div>
         </div>
 
