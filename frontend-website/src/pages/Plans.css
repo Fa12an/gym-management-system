@@ -331,6 +331,334 @@
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
+/* Add to existing Plans.css - remove comparison section styles */
+.plans-page {
+  min-height: 100vh;
+  padding-top: 80px;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+}
+
+/* Plans Hero */
+.plans-hero {
+  position: relative;
+  padding: 80px 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%);
+  overflow: hidden;
+}
+
+.plans-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(245, 166, 35, 0.1) 0%, transparent 70%);
+}
+
+.plans-hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.plans-hero h1 {
+  font-size: 3rem;
+  background: linear-gradient(135deg, #f5a623, #d4891a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 20px;
+}
+
+.plans-hero p {
+  font-size: 1.2rem;
+  color: #ccc;
+}
+
+/* Billing Toggle */
+.billing-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 50px 0;
+  flex-wrap: wrap;
+}
+
+.toggle-btn {
+  position: relative;
+  padding: 12px 32px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(245, 166, 35, 0.3);
+  border-radius: 50px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.toggle-btn.active {
+  background: linear-gradient(135deg, #f5a623, #d4891a);
+  color: #1a1a2e;
+  border-color: transparent;
+}
+
+.save-badge {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  background: #28a745;
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* Plans Grid */
+.plans-grid-premium {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  margin: 60px 0;
+}
+
+.plan-card-premium {
+  position: relative;
+  background: linear-gradient(135deg, rgba(30,30,46,0.95) 0%, rgba(20,20,36,0.95) 100%);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 40px 30px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(245, 166, 35, 0.2);
+  overflow: hidden;
+}
+
+.plan-card-premium:hover {
+  transform: translateY(-10px);
+  border-color: #f5a623;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.plan-card-premium.popular {
+  border: 2px solid #f5a623;
+  transform: scale(1.02);
+}
+
+.popular-badge-premium {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #f5a623, #d4891a);
+  color: #1a1a2e;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.plan-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.plan-header h3 {
+  font-size: 1.8rem;
+  color: #f5a623;
+  margin-bottom: 15px;
+}
+
+.plan-price {
+  margin-bottom: 15px;
+}
+
+.plan-price .currency {
+  font-size: 1.5rem;
+  vertical-align: top;
+  color: #f5a623;
+}
+
+.plan-price .price {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #f5a623;
+}
+
+.plan-price .period {
+  font-size: 1rem;
+  color: #888;
+}
+
+.plan-description {
+  color: #aaa;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.plan-features {
+  margin: 30px 0;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0;
+  color: #ccc;
+}
+
+.feature-check {
+  color: #28a745;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.plan-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #f5a623, #d4891a);
+  border: none;
+  border-radius: 50px;
+  color: #1a1a2e;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.plan-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(245, 166, 35, 0.4);
+  gap: 15px;
+}
+
+/* FAQ Section */
+.faq-section-premium {
+  margin: 80px 0;
+}
+
+.faq-section-premium h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: #f5a623;
+  margin-bottom: 40px;
+}
+
+.faq-grid-premium {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+.faq-item-premium {
+  background: linear-gradient(135deg, rgba(30,30,46,0.95) 0%, rgba(20,20,36,0.95) 100%);
+  padding: 25px;
+  border-radius: 16px;
+  border: 1px solid rgba(245, 166, 35, 0.2);
+  transition: all 0.3s ease;
+}
+
+.faq-item-premium:hover {
+  border-color: #f5a623;
+  transform: translateY(-5px);
+}
+
+.faq-item-premium h3 {
+  color: #f5a623;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.faq-item-premium p {
+  color: #aaa;
+  line-height: 1.6;
+}
+
+/* Plans CTA */
+.plans-cta {
+  margin: 80px 0;
+  padding: 60px;
+  background: linear-gradient(135deg, #f5a623 0%, #d4891a 100%);
+  border-radius: 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.plans-cta::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+}
+
+.plans-cta-content {
+  position: relative;
+  z-index: 2;
+}
+
+.plans-cta-content h2 {
+  font-size: 2rem;
+  color: #1a1a2e;
+  margin-bottom: 15px;
+}
+
+.plans-cta-content p {
+  font-size: 1.1rem;
+  color: #1a1a2e;
+  margin-bottom: 25px;
+}
+
+.btn-plans-cta {
+  display: inline-block;
+  padding: 15px 40px;
+  background: #1a1a2e;
+  color: #f5a623;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.btn-plans-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  background: #2a2a4e;
+}
+
+@media (max-width: 768px) {
+  .plans-hero h1 {
+    font-size: 2rem;
+  }
+  
+  .plans-grid-premium {
+    grid-template-columns: 1fr;
+  }
+  
+  .plan-card-premium.popular {
+    transform: scale(1);
+  }
+  
+  .faq-grid-premium {
+    grid-template-columns: 1fr;
+  }
+  
+  .plans-cta {
+    padding: 40px 20px;
+  }
+  
+  .plans-cta-content h2 {
+    font-size: 1.5rem;
+  }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .plans-hero h1 {
