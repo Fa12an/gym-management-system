@@ -24,13 +24,19 @@ function WhatsAppButton() {
         justifyContent: 'center',
         fontSize: '30px',
         textDecoration: 'none',
-        boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
         zIndex: 1000,
-        transition: 'transform 0.3s',
+        transition: 'all 0.3s ease',
         animation: 'float 2s infinite'
       }}
-      onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
-      onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+      onMouseEnter={(e) => {
+        e.target.style.transform = 'scale(1.1)';
+        e.target.style.boxShadow = '0 8px 30px rgba(37, 211, 102, 0.4)';
+      }}
+      onMouseLeave={(e) => {
+        e.target.style.transform = 'scale(1)';
+        e.target.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
+      }}
     >
       💬
     </a>
