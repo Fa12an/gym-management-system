@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import logo from '../assets/images/Muscle_Universe_Logo.jpeg';
 import './Navbar.css';
 
 function Navbar({ isAuthenticated, userRole, onLogout }) {
@@ -28,7 +29,7 @@ function Navbar({ isAuthenticated, userRole, onLogout }) {
     <nav className={`navbar-premium ${scrolled ? 'scrolled' : ''}`}>
       <div className="nav-container-premium">
         <Link to="/" className="logo-premium" onClick={() => setMobileMenuOpen(false)}>
-          <span className="logo-icon">💪</span>
+          <img src={logo} alt="Muscle Universe Logo" className="logo-img-premium" />
           <div className="logo-text-premium">
             MUSCLE <span>UNIVERSE</span>
           </div>
