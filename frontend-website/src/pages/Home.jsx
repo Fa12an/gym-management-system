@@ -37,9 +37,36 @@ function Home() {
       });
     }, { threshold: 0.5 });
 
-    const statsSection = document.querySelector('.hero-stats');
+    const statsSection = document.querySelector('.hero-stats-premium');
     if (statsSection) observer.observe(statsSection);
+
+    // Animate feature cards
+    const cards = document.querySelectorAll('.feature-card-premium');
+    const cardObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    cards.forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(30px)';
+      card.style.transition = 'all 0.6s ease';
+      cardObserver.observe(card);
+    });
   }, []);
+
+  const features = [
+    { icon: '🏋️', title: 'Modern Equipment', desc: 'Latest fitness equipment from top brands with regular maintenance' },
+    { icon: '👨‍🏫', title: 'Expert Trainers', desc: 'Certified professionals with years of experience in fitness training' },
+    { icon: '💪', title: 'Personalized Plans', desc: 'Custom workout and diet plans tailored to your specific goals' },
+    { icon: '🕐', title: 'Flexible Hours', desc: 'Open from 5:30 AM to 10:30 PM, 7 days a week' },
+    { icon: '🧘', title: 'Diverse Classes', desc: 'Yoga, Zumba, CrossFit, HIIT, and more group classes' },
+    { icon: '🤝', title: 'Supportive Community', desc: 'A motivating environment that keeps you accountable' }
+  ];
 
   return (
     <div className="home-premium">
@@ -85,7 +112,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Features Section - 6 Cards */}
       <section className="features-premium">
         <div className="container">
           <div className="section-header">
@@ -94,30 +121,14 @@ function Home() {
             <p className="section-subtitle">We provide everything you need to achieve your fitness goals</p>
           </div>
           <div className="features-grid-premium">
-            <div className="feature-card-premium">
-              <div className="feature-icon">🏋️</div>
-              <h3>Modern Equipment</h3>
-              <p>Latest fitness equipment from top brands with regular maintenance</p>
-              <div className="feature-hover"></div>
-            </div>
-            <div className="feature-card-premium">
-              <div className="feature-icon">👨‍🏫</div>
-              <h3>Expert Trainers</h3>
-              <p>Certified professionals with years of experience in fitness training</p>
-              <div className="feature-hover"></div>
-            </div>
-            <div className="feature-card-premium">
-              <div className="feature-icon">💪</div>
-              <h3>Personalized Plans</h3>
-              <p>Custom workout and diet plans tailored to your specific goals</p>
-              <div className="feature-hover"></div>
-            </div>
-            <div className="feature-card-premium">
-              <div className="feature-icon">🕐</div>
-              <h3>Flexible Hours</h3>
-              <p>Open from 5:30 AM to 10:30 PM, 7 days a week</p>
-              <div className="feature-hover"></div>
-            </div>
+            {features.map((feature, index) => (
+              <div key={index} className="feature-card-premium">
+                <div className="feature-icon">{feature.icon}</div>
+                <h3>{feature.title}</h3>
+                <p>{feature.desc}</p>
+                <div className="feature-hover"></div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
