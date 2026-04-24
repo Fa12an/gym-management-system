@@ -1,9 +1,11 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import logo from '../assets/images/Muscle_Universe_Logo.jpeg';
 import './Navbar.css';
 
-function Navbar({ isAuthenticated, userRole, onLogout }) {
+// Use require for logo
+const logo = process.env.PUBLIC_URL + '/assets/images/Muscle_Universe_Logo.jpeg';
+
+function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
@@ -29,7 +31,7 @@ function Navbar({ isAuthenticated, userRole, onLogout }) {
     <nav className={`navbar-premium ${scrolled ? 'scrolled' : ''}`}>
       <div className="nav-container-premium">
         <Link to="/" className="logo-premium" onClick={() => setMobileMenuOpen(false)}>
-          <img src={logo} alt="Muscle Universe Logo" className="logo-img-premium" />
+          <img src={logo} alt="Muscle Universe Logo" className="logo-img-premium" onError={(e) => { e.target.style.display = 'none' }} />
           <div className="logo-text-premium">
             MUSCLE <span>UNIVERSE</span>
           </div>
@@ -46,15 +48,6 @@ function Navbar({ isAuthenticated, userRole, onLogout }) {
               {link.label}
             </Link>
           ))}
-          
-          {isAuthenticated && userRole === 'admin' ? (
-            <>
-              <Link to="/admin-dashboard" className="nav-link-premium admin-link">Admin</Link>
-              <button onClick={onLogout} className="nav-logout-btn">Logout</button>
-            </>
-          ) : (
-            <Link to="/admin-login" className="nav-admin-btn">Admin</Link>
-          )}
         </div>
 
         <button className="mobile-menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
