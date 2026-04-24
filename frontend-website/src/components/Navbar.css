@@ -4,14 +4,14 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  padding: 20px 0;
+  padding: 15px 0;
   transition: all 0.4s ease;
-  background: #1a1a1a;
+  background: #1a1a2e;
 }
 
 .navbar-premium.scrolled {
-  padding: 12px 0;
-  background: rgba(26, 26, 26, 0.98);
+  padding: 10px 0;
+  background: rgba(26, 26, 46, 0.98);
   backdrop-filter: blur(10px);
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 }
@@ -28,18 +28,15 @@
 .logo-premium {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   text-decoration: none;
 }
 
-.logo-icon {
-  font-size: 2rem;
-  animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
+.logo-img-premium {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 8px;
 }
 
 .logo-text-premium {
@@ -50,10 +47,7 @@
 }
 
 .logo-text-premium span {
-  background: linear-gradient(135deg, #FFD700, #FFA500);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: #f5a623;
 }
 
 .nav-menu-premium {
@@ -77,7 +71,7 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, #FFD700, #FFA500);
+  background: #f5a623;
   transition: width 0.3s ease;
   border-radius: 2px;
 }
@@ -89,19 +83,19 @@
 
 .nav-link-premium:hover,
 .nav-link-premium.active {
-  color: #FFD700;
+  color: #f5a623;
 }
 
 .admin-link {
-  color: #FFD700;
+  color: #f5a623;
 }
 
 .nav-admin-btn {
   padding: 8px 22px;
-  background: linear-gradient(135deg, #FFD700, #FFA500);
+  background: #f5a623;
   border: none;
   border-radius: 30px;
-  color: #000;
+  color: #1a1a2e;
   font-weight: 700;
   cursor: pointer;
   text-decoration: none;
@@ -122,7 +116,7 @@
 .nav-admin-btn:hover,
 .nav-logout-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+  box-shadow: 0 5px 15px rgba(245, 166, 35, 0.3);
 }
 
 .mobile-menu-btn {
@@ -137,7 +131,7 @@
 .mobile-menu-btn span {
   width: 28px;
   height: 2px;
-  background: #FFD700;
+  background: #f5a623;
   transition: all 0.3s ease;
 }
 
@@ -152,7 +146,7 @@
     left: -100%;
     width: 100%;
     height: calc(100vh - 70px);
-    background: #1a1a1a;
+    background: #1a1a2e;
     flex-direction: column;
     justify-content: center;
     transition: left 0.3s ease;
@@ -167,7 +161,8 @@
     font-size: 1rem;
   }
   
-  .logo-icon {
-    font-size: 1.5rem;
+  .logo-img-premium {
+    width: 35px;
+    height: 35px;
   }
 }
