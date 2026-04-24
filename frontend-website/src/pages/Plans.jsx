@@ -22,7 +22,7 @@ function Plans() {
           'Drinking Water'
         ],
         popular: false,
-        color: '#FFD700'
+        color: '#f5a623'
       },
       {
         id: 2,
@@ -39,7 +39,7 @@ function Plans() {
           'Guest Pass (1/month)'
         ],
         popular: true,
-        color: '#FF6B35'
+        color: '#f5a623'
       },
       {
         id: 3,
@@ -57,7 +57,7 @@ function Plans() {
           'Priority Class Booking'
         ],
         popular: false,
-        color: '#9B59B6'
+        color: '#f5a623'
       }
     ],
     quarterly: [
@@ -74,7 +74,7 @@ function Plans() {
           'Changing Rooms'
         ],
         popular: false,
-        color: '#FFD700'
+        color: '#f5a623'
       },
       {
         id: 5,
@@ -90,7 +90,7 @@ function Plans() {
           'Free Protein Shake (1/week)'
         ],
         popular: true,
-        color: '#FF6B35'
+        color: '#f5a623'
       },
       {
         id: 6,
@@ -106,7 +106,7 @@ function Plans() {
           'Supplement Discounts (20%)'
         ],
         popular: false,
-        color: '#9B59B6'
+        color: '#f5a623'
       }
     ],
     yearly: [
@@ -123,7 +123,7 @@ function Plans() {
           'Changing Rooms'
         ],
         popular: false,
-        color: '#FFD700'
+        color: '#f5a623'
       },
       {
         id: 8,
@@ -139,7 +139,7 @@ function Plans() {
           'Free Merchandise'
         ],
         popular: true,
-        color: '#FF6B35'
+        color: '#f5a623'
       },
       {
         id: 9,
@@ -156,22 +156,14 @@ function Plans() {
           'Free Annual Health Checkup'
         ],
         popular: false,
-        color: '#9B59B6'
+        color: '#f5a623'
       }
     ]
   };
 
   const currentPlans = plans[billingCycle];
 
-  const handlePlanSelect = (plan) => {
-    setSelectedPlan(plan);
-    setTimeout(() => {
-      window.location.href = '/join';
-    }, 500);
-  };
-
   useEffect(() => {
-    // Add animation on scroll
     const cards = document.querySelectorAll('.plan-card-premium');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -194,7 +186,6 @@ function Plans() {
 
   return (
     <div className="plans-page">
-      {/* Hero Section */}
       <div className="plans-hero">
         <div className="plans-hero-overlay"></div>
         <div className="plans-hero-content">
@@ -234,7 +225,6 @@ function Plans() {
             <div 
               key={plan.id} 
               className={`plan-card-premium ${plan.popular ? 'popular' : ''}`}
-              style={{ '--plan-color': plan.color }}
             >
               {plan.popular && (
                 <div className="popular-badge-premium">
@@ -262,76 +252,12 @@ function Plans() {
                   </div>
                 ))}
               </div>
-              <button 
-                className="plan-btn"
-                onClick={() => handlePlanSelect(plan)}
-              >
+              <Link to="/join" className="plan-btn">
                 Get Started
                 <span className="btn-arrow">→</span>
-              </button>
+              </Link>
             </div>
           ))}
-        </div>
-
-        {/* Comparison Table */}
-        <div className="comparison-section">
-          <h2>Compare All Features</h2>
-          <div className="comparison-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>Features</th>
-                  <th>Basic</th>
-                  <th>Pro</th>
-                  <th>Elite</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Gym Access Hours</td>
-                  <td>6 AM - 10 PM</td>
-                  <td>5 AM - 11 PM</td>
-                  <td>24/7 Access</td>
-                </tr>
-                <tr>
-                  <td>Personal Training</td>
-                  <td>❌</td>
-                  <td>4x/week</td>
-                  <td>Unlimited</td>
-                </tr>
-                <tr>
-                  <td>Diet Consultation</td>
-                  <td>❌</td>
-                  <td>Monthly</td>
-                  <td>Weekly</td>
-                </tr>
-                <tr>
-                  <td>Locker Type</td>
-                  <td>Standard</td>
-                  <td>Premium</td>
-                  <td>VIP</td>
-                </tr>
-                <tr>
-                  <td>Guest Passes</td>
-                  <td>❌</td>
-                  <td>1/month</td>
-                  <td>2/month</td>
-                </tr>
-                <tr>
-                  <td>Supplement Discount</td>
-                  <td>❌</td>
-                  <td>10%</td>
-                  <td>20%</td>
-                </tr>
-                <tr>
-                  <td>Free Merchandise</td>
-                  <td>❌</td>
-                  <td>T-Shirt</td>
-                  <td>Full Kit</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
         </div>
 
         {/* FAQ Section */}
