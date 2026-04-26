@@ -1,13 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import logo from '../assets/images/Muscle_Universe_Logo.jpeg';
 import './Navbar.css';
-
-// Try multiple possible paths
-const logoPaths = [
-  '/assets/images/Muscle_Universe_Logo.jpeg',
-  '/Muscle_Universe_Logo.jpeg',
-  '/logo.jpeg',
-];
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -38,7 +32,7 @@ function Navbar() {
         <Link to="/" className="logo-premium" onClick={() => setMobileMenuOpen(false)}>
           {!logoError && (
             <img 
-              src={logoPaths[0]} 
+              src={logo} 
               alt="Muscle Universe Logo" 
               className="logo-img-premium"
               onError={() => setLogoError(true)}
