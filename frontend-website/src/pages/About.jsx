@@ -27,6 +27,11 @@ function About() {
       name: "Bhargav Lokesh",
       rating: 5,
       text: "Great gym with well-maintained equipment. The trainers are knowledgeable, supportive, and always push you to do your best"
+    },
+    {
+      name: "Nishad N",
+      rating: 5,
+      text: "Supportive trainers, super clean gym, energetic zumba instructors and friendly crowd. Glad I joined this gym 😊 …"
     }
   ];
 
@@ -68,7 +73,7 @@ function About() {
         <section className="about-story-premium">
           <div className="about-card-premium reveal">
             <h2>📖 Our Story</h2>
-            <p>Founded in 2016, Muscle Universe Gym has been dedicated to helping individuals achieve their fitness goals in a supportive and motivating environment. What started as a small local gym has now grown into a premier fitness destination with state-of-the-art equipment and expert trainers.</p>
+            <p>Founded in 2025, Muscle Universe Gym has been dedicated to helping individuals achieve their fitness goals in a supportive and motivating environment. What started as a small local gym has now grown into a premier fitness destination with state-of-the-art equipment and expert trainers.</p>
             <p>Our mission is to provide a welcoming space where people of all fitness levels can work towards their goals, whether it's weight loss, muscle gain, or overall wellness. We believe that fitness is not just about looking good – it's about feeling strong, confident, and healthy.</p>
           </div>
         </section>
