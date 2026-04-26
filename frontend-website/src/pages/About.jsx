@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react';
 import './About.css';
 
 function About() {
@@ -31,103 +30,89 @@ function About() {
     {
       name: "Nishad N",
       rating: 5,
-      text: "Supportive trainers, super clean gym, energetic zumba instructors and friendly crowd. Glad I joined this gym 😊 …"
+      text: "Supportive trainers, super clean gym, energetic zumba instructors and friendly crowd. Glad I joined this gym 😊"
     }
   ];
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }
-    );
-
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <div className="about-premium">
-
-      {/* Hero */}
-      <section className="about-hero">
-        <div className="about-hero-overlay"></div>
+      {/* Hero Section */}
+      <div className="about-hero">
         <div className="about-hero-content">
-          <p className="hero-eyebrow">— EST. 2016 —</p>
           <h1>About <span className="gradient-text">Muscle Universe</span></h1>
-          <p className="hero-sub">Your journey to a healthier, stronger life starts here</p>
-          <div className="hero-line"></div>
+          <p>Your journey to a healthier, stronger life starts here</p>
         </div>
-      </section>
+      </div>
 
-      <div className="container">
-
-        {/* Story */}
-        <section className="about-story-premium">
-          <div className="about-card-premium reveal">
-            <h2>📖 Our Story</h2>
+      <div className="about-container">
+        {/* Story Section */}
+        <div className="about-story">
+          <div className="about-card">
+            <h2>Our Story</h2>
             <p>Founded in 2025, Muscle Universe Gym has been dedicated to helping individuals achieve their fitness goals in a supportive and motivating environment. What started as a small local gym has now grown into a premier fitness destination with state-of-the-art equipment and expert trainers.</p>
             <p>Our mission is to provide a welcoming space where people of all fitness levels can work towards their goals, whether it's weight loss, muscle gain, or overall wellness. We believe that fitness is not just about looking good – it's about feeling strong, confident, and healthy.</p>
           </div>
-        </section>
+        </div>
 
-        {/* Mission / Vision / Values */}
-        <section className="mission-vision-premium">
-          <div className="mv-card-premium reveal" style={{'--d':'0s'}}>
+        {/* Mission Vision Values */}
+        <div className="mission-vision">
+          <div className="mv-card">
             <div className="mv-icon">🎯</div>
             <h3>Our Mission</h3>
-            <p>To empower individuals to lead healthier lives through fitness, education, and community support. We strive to make quality fitness accessible to everyone.</p>
+            <p>To empower individuals to lead healthier lives through fitness, education, and community support.</p>
           </div>
-          <div className="mv-card-premium reveal" style={{'--d':'0.1s'}}>
+          <div className="mv-card">
             <div className="mv-icon">👁️</div>
             <h3>Our Vision</h3>
-            <p>To become the most trusted fitness brand that transforms lives and creates a healthier, happier community one person at a time.</p>
+            <p>To become the most trusted fitness brand that transforms lives and creates a healthier community.</p>
           </div>
-          <div className="mv-card-premium reveal" style={{'--d':'0.2s'}}>
+          <div className="mv-card">
             <div className="mv-icon">💎</div>
             <h3>Our Values</h3>
-            <p>Integrity, Excellence, Community, Innovation, and Results. These values guide everything we do at Muscle Universe Gym.</p>
+            <p>Integrity, Excellence, Community, Innovation, and Results guide everything we do.</p>
           </div>
-        </section>
+        </div>
 
-        {/* Stats */}
-        <section className="about-stats-premium">
-          {[
-            { num: '5000+', label: 'Happy Members'    },
-            { num: '50+',   label: 'Expert Trainers'  },
-            { num: '20+',   label: 'Classes Weekly'   },
-            { num: '8+',    label: 'Years Excellence' },
-          ].map((s, i) => (
-            <div key={i} className="about-stat-card reveal" style={{'--d':`${i * 0.08}s`}}>
-              <div className="about-stat-number">{s.num}</div>
-              <div className="about-stat-label">{s.label}</div>
-            </div>
-          ))}
-        </section>
+        {/* Stats Section */}
+        <div className="about-stats">
+          <div className="stat-card">
+            <div className="stat-number">5000+</div>
+            <div className="stat-label">Happy Members</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-number">50+</div>
+            <div className="stat-label">Expert Trainers</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-number">20+</div>
+            <div className="stat-label">Classes Weekly</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-number">8+</div>
+            <div className="stat-label">Years Excellence</div>
+          </div>
+        </div>
 
-        {/* Reviews */}
-        <section className="reviews-section">
-          <div className="section-header reveal">
+        {/* Reviews Section */}
+        <div className="reviews-section">
+          <div className="section-header">
             <span className="section-tag">Member Testimonials</span>
             <h2>What Our <span className="gradient-text">Members Say</span></h2>
             <p>Don't just take our word for it - hear from our amazing community</p>
           </div>
           <div className="reviews-grid">
-            {reviews.map((review, i) => (
-              <div key={i} className="review-card-premium reveal" style={{'--d':`${i * 0.07}s`}}>
+            {reviews.map((review, index) => (
+              <div key={index} className="review-card">
                 <div className="review-header">
                   <div className="reviewer-info">
-                    <div className="reviewer-avatar">{review.name.charAt(0)}</div>
+                    <div className="reviewer-avatar">
+                      {review.name.charAt(0)}
+                    </div>
                     <div>
                       <h4>{review.name}</h4>
-                      <div className="review-rating">{'⭐'.repeat(review.rating)}</div>
+                      <div className="review-stars">
+                        {'⭐'.repeat(review.rating)}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -136,44 +121,46 @@ function About() {
               </div>
             ))}
           </div>
-        </section>
+        </div>
 
-        {/* Location */}
-        <section className="location-premium reveal">
+        {/* Location Section - Static image instead of iframe for better performance */}
+        <div className="location-section">
           <h2>Find Us <span className="gradient-text">Here</span></h2>
-          <div className="location-card-premium">
-            <div className="location-details-premium">
+          <div className="location-card">
+            <div className="location-details">
               <h3>📍 Muscle Universe Gym</h3>
               <p>No 50, JKN ARCADE, 3rd & 4th Floor,<br />
               1st Cross, 27th Main, BTM 1st Stage,<br />
               Bengaluru, Karnataka 560068</p>
+              
               <h3>📞 Contact</h3>
               <p>Phone: 95356 68280</p>
               <p>Email: info@muscleuniverse.com</p>
+              
               <h3>🕐 Opening Hours</h3>
               <p>Monday - Friday: 5:30 AM - 10:30 PM</p>
               <p>Saturday: 6:00 AM - 9:00 PM</p>
               <p>Sunday: 6:00 AM - 9:00 PM</p>
+              
               <h3>💳 Payment Methods</h3>
               <p>Cash • Google Pay • Credit/Debit Cards</p>
-              <h3>🅿️ Parking</h3>
-              <p>Free parking lot available • On-site parking</p>
             </div>
-            <div className="location-map-premium">
-              <iframe
-                title="Muscle Universe Gym Location"
-                src={"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.0!2d77.6143538!3d12.9171795!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae15dfd4a95de3:0xff41f8b1316929af!2sMuscle%20Universe%20Gym!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+            <div className="location-map">
+              <a 
+                href="https://maps.google.com/?q=12.916563,77.603375" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="map-link"
+              >
+                <div className="map-placeholder">
+                  <div className="map-pin">📍</div>
+                  <p>Tap to open in Google Maps</p>
+                  <span className="map-arrow">→</span>
+                </div>
+              </a>
             </div>
           </div>
-        </section>
-
+        </div>
       </div>
     </div>
   );
