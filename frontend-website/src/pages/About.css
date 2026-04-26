@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Barlow+Condensed:wght@400;600;700&display=swap');
 
-/* ─── Box Sizing ─────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 
 /* ─── Variables ─────────────────────────────────────────────── */
@@ -8,7 +7,7 @@
   --gold:           #f5a623;
   --gold-dim:       #d4891a;
   --gold-faint:     rgba(245, 166, 35, 0.08);
-  --gold-glow:      rgba(245, 166, 35, 0.25);
+  --gold-glow:      rgba(245, 166, 35, 0.22);
   --dark-900:       #080808;
   --dark-800:       #0f0f0f;
   --dark-700:       #161616;
@@ -20,15 +19,16 @@
   --font-display:   'Bebas Neue', sans-serif;
   --font-condensed: 'Barlow Condensed', sans-serif;
   --font-body:      'Barlow', sans-serif;
-  --delay:          0s;
+  --d: 0s;
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   CSS KEYFRAMES  (compositor-only: opacity + transform)
-   Safe on mobile — never triggers layout/paint recalc
+   KEYFRAMES
+   Only opacity + transform — compositor-thread only, never
+   triggers layout/paint, 100% scroll-safe on all devices
 ═══════════════════════════════════════════════════════════════ */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(22px); }
+  from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0);    }
 }
 
@@ -37,26 +37,34 @@
   to   { opacity: 1; }
 }
 
-@keyframes goldPulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.6; }
-}
-
 @keyframes shimmer {
   0%   { background-position: -200% center; }
   100% { background-position:  200% center; }
 }
 
-/* ── Scroll-animation base class ─────────────────────────────── */
-/* Elements start invisible; JS adds .animate-in to play the keyframe */
-.fade-up-init {
-  opacity: 0;
-  transform: translateY(22px);
+@keyframes goldPulse {
+  0%, 100% { opacity: 0.8; }
+  50%       { opacity: 0.4; }
 }
 
-.fade-up-init.animate-in {
-  animation: fadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: var(--delay, 0s);
+@keyframes float {
+  0%, 100% { transform: translateY(0);    }
+  50%       { transform: translateY(-6px); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SCROLL REVEAL
+   .reveal = hidden by default
+   .reveal.visible = animation plays (added by IntersectionObserver)
+═══════════════════════════════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.reveal.visible {
+  animation: fadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--d, 0s);
 }
 
 /* ─── Base ───────────────────────────────────────────────────── */
@@ -98,35 +106,13 @@
   overflow: hidden;
 }
 
-@media (min-width: 769px) {
-  .about-hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    opacity: 0.5;
-    pointer-events: none;
-    z-index: 1;
-  }
-  .about-hero::after {
-    content: '';
-    position: absolute;
-    top: -60px; right: -80px;
-    width: 300px; height: 300px;
-    background: conic-gradient(from 200deg, transparent 60deg, rgba(245,166,35,0.06) 120deg, transparent 180deg);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 1;
-  }
-}
-
 .about-hero-overlay {
   position: absolute;
   inset: 0;
   background:
     radial-gradient(ellipse 80% 60% at 50% 100%, rgba(245,166,35,0.10) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 40% at 20% 20%,  rgba(245,166,35,0.04) 0%, transparent 60%);
-  z-index: 1;
+    radial-gradient(ellipse 40% 40% at 80% 10%,  rgba(245,166,35,0.04) 0%, transparent 60%);
+  pointer-events: none;
 }
 
 .about-hero-content {
@@ -135,17 +121,16 @@
   padding: 0 10px;
 }
 
-.about-hero-content::before {
-  content: '— EST. 2016 —';
-  display: block;
+/* Hero elements animate in on load via CSS — no JS needed */
+.hero-eyebrow {
   font-family: var(--font-condensed);
   font-size: 0.72rem;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.32em;
   color: var(--gold);
   margin-bottom: 16px;
-  opacity: 0.8;
-  /* Subtle pulse on the eyebrow label */
-  animation: goldPulse 3.5s ease-in-out infinite;
+  animation: fadeIn 0.8s ease forwards, goldPulse 3.5s 0.8s ease-in-out infinite;
+  opacity: 0;
+  animation-fill-mode: forwards;
 }
 
 .about-hero-content h1 {
@@ -156,33 +141,31 @@
   margin-bottom: 20px;
   color: var(--text-bright);
   word-break: break-word;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-.about-hero-content p {
+.hero-sub {
   font-family: var(--font-condensed);
   font-size: clamp(0.85rem, 3vw, 1.2rem);
   letter-spacing: 0.12em;
   color: var(--text-mid);
   text-transform: uppercase;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-.about-hero-content::after {
-  content: '';
-  display: block;
+.hero-line {
   width: 60px;
   height: 2px;
-  /* Animated shimmer on the gold line */
+  margin: 24px auto 0;
   background: linear-gradient(
     90deg,
-    transparent 0%,
-    var(--gold) 30%,
-    #ffe08a 50%,
-    var(--gold) 70%,
-    transparent 100%
+    transparent 0%, var(--gold) 30%, #ffe08a 50%, var(--gold) 70%, transparent 100%
   );
   background-size: 200% auto;
-  animation: shimmer 2.5s linear infinite;
-  margin: 24px auto 0;
+  animation: fadeIn 0.6s 0.5s ease forwards, shimmer 2.5s 1s linear infinite;
+  opacity: 0;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -198,27 +181,24 @@
   border-radius: 4px;
   border-left: 3px solid var(--gold);
   overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-@media (min-width: 769px) {
-  .about-card-premium::before {
-    content: '"';
-    position: absolute;
-    top: -10px; right: 20px;
-    font-family: var(--font-display);
-    font-size: 10rem;
-    color: var(--gold-faint);
-    line-height: 1;
-    pointer-events: none;
-    user-select: none;
-  }
-  .about-card-premium {
-    transition: transform 0.35s ease, box-shadow 0.35s ease;
-  }
-  .about-card-premium:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-  }
+.about-card-premium::before {
+  content: '"';
+  position: absolute;
+  top: -10px; right: 20px;
+  font-family: var(--font-display);
+  font-size: 10rem;
+  color: var(--gold-faint);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.about-card-premium:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.4);
 }
 
 .about-card-premium h2 {
@@ -257,42 +237,31 @@
   text-align: center;
   position: relative;
   overflow: hidden;
+  transition: background 0.3s ease;
 }
 
-@media (min-width: 769px) {
-  .mv-card-premium {
-    transition: background 0.3s ease;
-  }
-  .mv-card-premium::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 50%;
-    transform: translateX(-50%) scaleX(0);
-    width: 60%; height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    transition: transform 0.4s ease;
-  }
-  .mv-card-premium:hover { background: var(--dark-600); }
-  .mv-card-premium:hover::after { transform: translateX(-50%) scaleX(1); }
-  .mv-icon { filter: drop-shadow(0 0 10px var(--gold-glow)); }
+.mv-card-premium::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 60%; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  transition: transform 0.35s ease;
 }
+
+.mv-card-premium:hover { background: var(--dark-600); }
+.mv-card-premium:hover::after { transform: translateX(-50%) scaleX(1); }
 
 .mv-icon {
   font-size: 2.4rem;
   margin-bottom: 16px;
   display: block;
-  /* Gentle float on the emoji icons — runs on compositor */
-  animation: floatIcon 3s ease-in-out infinite;
+  animation: float 3s ease-in-out infinite;
 }
 
-/* Stagger the float per card */
-.mv-card-premium:nth-child(2) .mv-icon { animation-delay: 0.6s; }
-.mv-card-premium:nth-child(3) .mv-icon { animation-delay: 1.2s; }
-
-@keyframes floatIcon {
-  0%, 100% { transform: translateY(0);   }
-  50%       { transform: translateY(-5px); }
-}
+.mv-card-premium:nth-child(2) .mv-icon { animation-delay: 0.7s; }
+.mv-card-premium:nth-child(3) .mv-icon { animation-delay: 1.4s; }
 
 .mv-card-premium h3 {
   font-family: var(--font-display);
@@ -335,17 +304,11 @@
   padding: 40px 12px;
   background: var(--dark-700);
   border-right: 1px solid rgba(255,255,255,0.04);
+  transition: background 0.3s ease;
 }
 
 .about-stat-card:last-child { border-right: none; }
-
-@media (min-width: 769px) {
-  .about-stat-card {
-    transition: background 0.3s ease;
-  }
-  .about-stat-card:hover { background: var(--dark-600); }
-  .about-stat-number { text-shadow: 0 0 30px var(--gold-glow); }
-}
+.about-stat-card:hover { background: var(--dark-600); }
 
 .about-stat-number {
   font-family: var(--font-display);
@@ -414,30 +377,22 @@
   padding: 30px 24px;
   position: relative;
   overflow: hidden;
+  transition: background 0.3s ease, transform 0.3s ease;
 }
 
-/* Gold shimmer line that sweeps across on hover — desktop only */
-@media (min-width: 769px) {
-  .review-card-premium {
-    transition: background 0.3s ease, transform 0.3s ease;
-  }
-  .review-card-premium::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 36px; height: 36px;
-    border-top: 2px solid var(--gold);
-    border-left: 2px solid var(--gold);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  .review-card-premium:hover {
-    background: var(--dark-600);
-    transform: translateY(-3px);
-    z-index: 1;
-  }
-  .review-card-premium:hover::before { opacity: 1; }
+.review-card-premium::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 36px; height: 36px;
+  border-top: 2px solid var(--gold);
+  border-left: 2px solid var(--gold);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
+
+.review-card-premium:hover { background: var(--dark-600); transform: translateY(-3px); }
+.review-card-premium:hover::before { opacity: 1; }
 
 .review-header { margin-bottom: 16px; }
 
@@ -458,10 +413,6 @@
   font-size: 1.2rem;
   color: var(--dark-900);
   flex-shrink: 0;
-}
-
-@media (min-width: 769px) {
-  .reviewer-avatar { box-shadow: 0 0 16px var(--gold-glow); }
 }
 
 .reviewer-info h4 {
@@ -571,14 +522,6 @@
   border: 0;
 }
 
-@media (min-width: 769px) {
-  .location-map-premium iframe {
-    filter: grayscale(30%) contrast(1.1) brightness(0.85);
-    transition: filter 0.4s ease;
-  }
-  .location-map-premium:hover iframe { filter: none; }
-}
-
 /* ═══════════════════════════════════════════════════════════════
    TABLET  ≤ 900px
 ═══════════════════════════════════════════════════════════════ */
@@ -603,22 +546,28 @@
 
 /* ═══════════════════════════════════════════════════════════════
    MOBILE  ≤ 768px
+   Disable hover transforms — they cause jank on touch scroll
 ═══════════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
   .about-premium {
-    /* Compositor layer — smooth scroll */
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
   }
 
+  /* Kill all hover transforms on touch screens */
+  .about-card-premium:hover,
+  .review-card-premium:hover,
+  .mv-card-premium:hover {
+    transform: none;
+  }
+
+  .about-card-premium { transition: none; }
+  .review-card-premium { transition: none; }
+
   .about-hero { padding: 60px 16px 56px; }
 
   .about-story-premium { padding: 40px 0 20px; }
-
-  .about-card-premium {
-    padding: 24px 18px;
-    transition: none;
-  }
+  .about-card-premium  { padding: 24px 18px; }
 
   .mission-vision-premium { margin: 30px 0; }
   .mv-card-premium { padding: 28px 20px; }
@@ -627,19 +576,17 @@
     grid-template-columns: repeat(2, 1fr);
     margin: 30px 0;
   }
-
   .about-stat-card { padding: 28px 10px; transition: none; }
   .about-stat-card:nth-child(2),
   .about-stat-card:nth-child(4) { border-right: none; }
   .about-stat-card:nth-child(3),
   .about-stat-card:nth-child(4) { border-top: 1px solid rgba(255,255,255,0.04); }
-
   .about-stat-number { font-size: 2rem; }
   .about-stat-label  { font-size: 0.65rem; letter-spacing: 0.08em; }
 
   .reviews-section { padding: 40px 0; }
   .reviews-grid    { grid-template-columns: 1fr; gap: 2px; }
-  .review-card-premium { padding: 24px 18px; transition: none; }
+  .review-card-premium { padding: 24px 18px; }
 
   .location-premium { padding: 40px 0 60px; }
   .location-card-premium { grid-template-columns: 1fr; }
@@ -657,7 +604,7 @@
 @media (max-width: 380px) {
   .container { padding: 0 12px; }
   .about-hero-content h1 { font-size: 2.4rem; }
-  .about-hero-content p  { font-size: 0.78rem; letter-spacing: 0.08em; }
+  .hero-sub              { font-size: 0.78rem; letter-spacing: 0.08em; }
   .about-stat-number     { font-size: 1.7rem; }
   .about-stat-label      { font-size: 0.6rem; letter-spacing: 0.04em; }
   .reviewer-avatar       { width: 38px; height: 38px; min-width: 38px; font-size: 1rem; }
