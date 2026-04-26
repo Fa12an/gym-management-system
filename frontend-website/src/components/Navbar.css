@@ -155,10 +155,6 @@
     width: 36px;
     height: 36px;
   }
-  
-  .logo-text-premium {
-    font-size: 0.95rem;
-  }
 }
 
 /* Desktop */
@@ -185,7 +181,7 @@
   }
 }
 
-/* Small Mobile Devices */
+/* Small Mobile */
 @media (max-width: 480px) {
   .logo-img-premium {
     width: 28px;
@@ -198,9 +194,5 @@
   
   .logo-premium {
     gap: 6px;
-  }
-  
-  .nav-container-premium {
-    padding: 0 12px;
   }
 }
