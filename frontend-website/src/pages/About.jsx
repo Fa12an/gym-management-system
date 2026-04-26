@@ -34,11 +34,10 @@ function About() {
     }
   ];
 
-  // BTM Layout coordinates for Muscle Universe Gym
-  const gymLat = 12.916563;
-  const gymLng = 77.603375;
-  const googleMapsUrl = `https://www.google.com/maps?q=${gymLat},${gymLng}`;
-  const staticMapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${gymLat},${gymLng}&zoom=15&size=600x400&markers=color:red%7Csize:big%7C${gymLat},${gymLng}&key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg`;
+  // Muscle Universe Gym - 27th Main, Old Madiwala, Jay Bheema Nagar
+  const gymLat = 12.9171795;
+  const gymLng = 77.6143538;
+  const googleMapsUrl = `https://maps.app.goo.gl/VpeDTqzfvbSuHCqC9`;
 
   return (
     <div className="about-premium">
@@ -190,7 +189,7 @@ function About() {
               >
                 <iframe
                   title="Muscle Universe Gym Location"
-                  src="https://maps.google.com/maps?q=12.916563,77.603375&z=15&output=embed"
+                  src={`https://maps.google.com/maps?q=Muscle+Universe+Gym,+27th+Main,+Old+Madiwala,+Jay+Bheema+Nagar,+Bengaluru&z=16&output=embed`}
                   width="100%"
                   height="100%"
                   style={{ border: 0, minHeight: '400px' }}
