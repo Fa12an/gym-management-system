@@ -1,75 +1,13 @@
-import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './About.css';
 
+gsap.registerPlugin(ScrollTrigger);
+
 function About() {
-  // Simple intersection observer for fade-in effects (no GSAP)
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-          }
-        });
-      },
-      { threshold: 0.05, rootMargin: '20px' }
-    );
-
-    // Observe all cards
-    const cards = document.querySelectorAll(
-      '.about-card-premium, .mv-card-premium, .about-stat-card, .review-card-premium'
-    );
-    cards.forEach((card) => {
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(20px)';
-      card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-      observer.observe(card);
-    });
-
-    // Stats numbers animation
-    const statsNumbers = document.querySelectorAll('.about-stat-number');
-    const animateNumbers = () => {
-      statsNumbers.forEach((stat) => {
-        const target = parseInt(stat.getAttribute('data-target'));
-        if (!target) return;
-        
-        let current = 0;
-        const increment = target / 50;
-        const timer = setInterval(() => {
-          current += increment;
-          if (current >= target) {
-            stat.textContent = target;
-            clearInterval(timer);
-          } else {
-            stat.textContent = Math.floor(current);
-          }
-        }, 30);
-      });
-    };
-
-    // Trigger stats animation when visible
-    const statsObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            animateNumbers();
-            statsObserver.disconnect();
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    const statsSection = document.querySelector('.about-stats-premium');
-    if (statsSection) statsObserver.observe(statsSection);
-
-    return () => {
-      observer.disconnect();
-      statsObserver.disconnect();
-    };
-  }, []);
+  const sectionsRef = useRef([]);
+  const cardsRef = useRef([]);
 
   const reviews = [
     {
@@ -99,6 +37,75 @@ function About() {
     }
   ];
 
+  useEffect(() => {
+    // Only run GSAP on non-touch / desktop devices
+    const isMobile = window.matchMedia('(max-width: 768px)').matches || 
+                     ('ontouchstart' in window);
+
+    if (isMobile) {
+      // On mobile: just make everything visible immediately, no JS animation
+      sectionsRef.current.forEach(el => {
+        if (el) el.style.opacity = '1';
+      });
+      cardsRef.current.forEach(el => {
+        if (el) el.style.opacity = '1';
+      });
+      return; // skip all GSAP setup
+    }
+
+    // Desktop-only GSAP animations
+    gsap.fromTo('.about-hero-content h1',
+      { opacity: 0, y: 40 },
+      { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }
+    );
+
+    gsap.fromTo('.about-hero-content p',
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.9, delay: 0.25, ease: 'power3.out' }
+    );
+
+    sectionsRef.current.forEach((section, index) => {
+      if (!section) return;
+      gsap.fromTo(section,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          delay: index * 0.08,
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 88%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+    });
+
+    cardsRef.current.forEach((card, index) => {
+      if (!card) return;
+      gsap.fromTo(card,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.55,
+          delay: index * 0.08,
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 92%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+    });
+
+    // Cleanup on unmount
+    return () => {
+      ScrollTrigger.getAll().forEach(t => t.kill());
+    };
+  }, []);
+
   return (
     <div className="about-premium">
       {/* Hero Section */}
@@ -112,16 +119,16 @@ function About() {
 
       <div className="container">
         {/* Story Section */}
-        <section className="about-story-premium">
+        <section className="about-story-premium" ref={el => sectionsRef.current[0] = el}>
           <div className="about-card-premium">
-            <h2>Our Story</h2>
+            <h2>📖 Our Story</h2>
             <p>Founded in 2016, Muscle Universe Gym has been dedicated to helping individuals achieve their fitness goals in a supportive and motivating environment. What started as a small local gym has now grown into a premier fitness destination with state-of-the-art equipment and expert trainers.</p>
             <p>Our mission is to provide a welcoming space where people of all fitness levels can work towards their goals, whether it's weight loss, muscle gain, or overall wellness. We believe that fitness is not just about looking good – it's about feeling strong, confident, and healthy.</p>
           </div>
         </section>
 
         {/* Mission Vision Values */}
-        <section className="mission-vision-premium">
+        <section className="mission-vision-premium" ref={el => sectionsRef.current[1] = el}>
           <div className="mv-card-premium">
             <div className="mv-icon">🎯</div>
             <h3>Our Mission</h3>
@@ -140,21 +147,21 @@ function About() {
         </section>
 
         {/* Stats Section */}
-        <section className="about-stats-premium">
+        <section className="about-stats-premium" ref={el => sectionsRef.current[2] = el}>
           <div className="about-stat-card">
-            <div className="about-stat-number" data-target="5000">0</div>
+            <div className="about-stat-number">5000+</div>
             <div className="about-stat-label">Happy Members</div>
           </div>
           <div className="about-stat-card">
-            <div className="about-stat-number" data-target="50">0</div>
+            <div className="about-stat-number">50+</div>
             <div className="about-stat-label">Expert Trainers</div>
           </div>
           <div className="about-stat-card">
-            <div className="about-stat-number" data-target="20">0</div>
+            <div className="about-stat-number">20+</div>
             <div className="about-stat-label">Classes Weekly</div>
           </div>
           <div className="about-stat-card">
-            <div className="about-stat-number" data-target="8">0</div>
+            <div className="about-stat-number">8+</div>
             <div className="about-stat-label">Years Excellence</div>
           </div>
         </section>
@@ -168,7 +175,7 @@ function About() {
           </div>
           <div className="reviews-grid">
             {reviews.map((review, index) => (
-              <div key={index} className="review-card-premium">
+              <div key={index} className="review-card-premium" ref={el => cardsRef.current[index] = el}>
                 <div className="review-header">
                   <div className="reviewer-info">
                     <div className="reviewer-avatar">
@@ -189,8 +196,8 @@ function About() {
           </div>
         </section>
 
-        {/* Location Section with Exact Muscle Universe Map */}
-        <section className="location-premium">
+        {/* Location Section */}
+        <section className="location-premium" ref={el => sectionsRef.current[3] = el}>
           <h2>Find Us <span className="gradient-text">Here</span></h2>
           <div className="location-card-premium">
             <div className="location-details-premium">
@@ -198,26 +205,26 @@ function About() {
               <p>No 50, JKN ARCADE, 3rd & 4th Floor,<br />
               1st Cross, 27th Main, BTM 1st Stage,<br />
               Bengaluru, Karnataka 560068</p>
-              
+
               <h3>📞 Contact</h3>
               <p>Phone: 95356 68280</p>
               <p>Email: info@muscleuniverse.com</p>
-              
+
               <h3>🕐 Opening Hours</h3>
               <p>Monday - Friday: 5:30 AM - 10:30 PM</p>
               <p>Saturday: 6:00 AM - 9:00 PM</p>
               <p>Sunday: 6:00 AM - 9:00 PM</p>
-              
+
               <h3>💳 Payment Methods</h3>
               <p>Cash • Google Pay • Credit/Debit Cards</p>
-              
+
               <h3>🅿️ Parking</h3>
               <p>Free parking lot available • On-site parking</p>
             </div>
             <div className="location-map-premium">
               <iframe
                 title="Muscle Universe Gym Exact Location"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.825169957718!2d77.603375!3d12.916563!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae15c8a5c0e0f1%3A0x8f8f8f8f8f8f8f8!2sBTM%20Layout%2C%20Bengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                src={"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.0!2d77.6143538!3d12.9171795!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae15dfd4a95de3:0xff41f8b1316929af!2sMuscle%20Universe%20Gym!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"}
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
