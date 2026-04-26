@@ -205,7 +205,7 @@ function About() {
             <div className="location-map-premium">
               <iframe
                 title="Muscle Universe Gym Exact Location"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.825169957718!2d77.603375!3d12.916563!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae15c8a5c0e0f1%3A0x8f8f8f8f8f8f8f8!2sBTM%20Layout%2C%20Bengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                src=src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.0!2d77.6143538!3d12.9171795!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae15dfd4a95de3%3A0xff41f8b1316929af!2sMuscle%20Universe%20Gym!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
