@@ -15,12 +15,12 @@
   border-radius: 20px;
   overflow: hidden;
   transition: all 0.3s ease;
-  border: 1px solid rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(245, 166, 35, 0.1);
 }
 
 .trainer-card:hover {
   transform: translateY(-10px);
-  border-color: #FFD700;
+  border-color: #f5a623;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
@@ -48,7 +48,7 @@
 .trainer-info h2 {
   font-size: 1.5rem;
   margin-bottom: 5px;
-  color: #FFD700;
+  color: #f5a623;
 }
 
 .trainer-role {
@@ -65,25 +65,33 @@
 }
 
 .book-session-btn {
+  display: inline-block;
   width: 100%;
   margin-top: 20px;
   padding: 12px;
-  background: linear-gradient(135deg, #FFD700, #FFA500);
+  background: linear-gradient(135deg, #f5a623, #d4891a);
   border: none;
   border-radius: 50px;
-  color: #000;
+  color: #1a1a2e;
   font-weight: bold;
+  font-size: 1rem;
+  text-decoration: none;
   cursor: pointer;
   transition: all 0.3s;
+  text-align: center;
 }
 
 .book-session-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+  box-shadow: 0 5px 15px rgba(245, 166, 35, 0.4);
 }
 
 @media (max-width: 768px) {
   .trainers-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .trainer-image {
+    height: 280px;
   }
 }
