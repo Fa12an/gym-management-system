@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './Gallery.css';
 
-// Import all 9 gallery images
+// Import all 9 gallery images from src/assets/images/
 import gallery1 from '../assets/images/gallery_1.jpeg';
 import gallery2 from '../assets/images/gallery_2.jpeg';
 import gallery3 from '../assets/images/gallery_3.jpeg';
