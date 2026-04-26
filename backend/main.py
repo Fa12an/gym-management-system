@@ -5,6 +5,8 @@ from passlib.context import CryptContext
 from jose import jwt
 from datetime import datetime, timedelta
 import os
+import requests
+import asyncio
 from bson import ObjectId
 from dotenv import load_dotenv
 
@@ -22,6 +24,8 @@ app.add_middleware(
         "http://localhost:3001",
         "https://muscle-universe.onrender.com",
         "https://muscle-universe-admin.onrender.com",
+        "https://gym-website-ammg.onrender.com",
+        "https://gym-backend-x3v9.onrender.com",
         "*"
     ],
     allow_credentials=True,
@@ -104,6 +108,27 @@ def require_admin(token: str):
         raise HTTPException(status_code=403, detail="Admin access required")
     return user
 
+# ============ KEEP-ALIVE ENDPOINTS ============
+
+@app.get("/api/keep-alive")
+def keep_alive():
+    """Simple endpoint to keep the server alive"""
+    return {
+        "status": "alive",
+        "timestamp": datetime.now().isoformat(),
+        "message": "Server is running"
+    }
+
+@app.get("/api/health")
+def health_check():
+    """Health check endpoint for monitoring"""
+    return {
+        "status": "healthy",
+        "timestamp": datetime.now().isoformat(),
+        "uptime": "running",
+        "database": "connected" if client is not None else "disconnected"
+    }
+
 # ============ PUBLIC ROUTES ============
 
 @app.get("/")
@@ -118,6 +143,8 @@ def root():
             "/api/book-trial",
             "/api/login",
             "/api/check-auth",
+            "/api/keep-alive",
+            "/api/health",
             "/admin/*"
         ]
     }
