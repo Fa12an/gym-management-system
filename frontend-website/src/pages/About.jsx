@@ -38,16 +38,19 @@ function About() {
     <div className="about-premium">
       {/* Hero Section */}
       <div className="about-hero">
-        <div className="about-hero-content">
-          <h1>About <span className="gradient-text">Muscle Universe</span></h1>
-          <p>Your journey to a healthier, stronger life starts here</p>
-        </div>
+        <div className="about-hero-badge">EST. 2025</div>
+        <h1 className="about-hero-title">
+          About <span className="gold-text">Muscle Universe</span>
+        </h1>
+        <p className="about-hero-subtitle">Your journey to a healthier, stronger life starts here</p>
+        <div className="about-hero-line"></div>
       </div>
 
       <div className="about-container">
         {/* Story Section */}
         <div className="about-story">
           <div className="about-card">
+            <div className="about-card-icon">📖</div>
             <h2>Our Story</h2>
             <p>Founded in 2025, Muscle Universe Gym has been dedicated to helping individuals achieve their fitness goals in a supportive and motivating environment. What started as a small local gym has now grown into a premier fitness destination with state-of-the-art equipment and expert trainers.</p>
             <p>Our mission is to provide a welcoming space where people of all fitness levels can work towards their goals, whether it's weight loss, muscle gain, or overall wellness. We believe that fitness is not just about looking good – it's about feeling strong, confident, and healthy.</p>
@@ -96,14 +99,16 @@ function About() {
         {/* Reviews Section */}
         <div className="reviews-section">
           <div className="section-header">
-            <span className="section-tag">Member Testimonials</span>
-            <h2>What Our <span className="gradient-text">Members Say</span></h2>
-            <p>Don't just take our word for it - hear from our amazing community</p>
+            <span className="section-tag">Testimonials</span>
+            <h2 className="section-title">What Our <span className="gold-text">Members Say</span></h2>
+            <p className="section-subtitle">Don't just take our word for it - hear from our amazing community</p>
           </div>
           <div className="reviews-grid">
             {reviews.map((review, index) => (
               <div key={index} className="review-card">
-                <div className="review-header">
+                <div className="review-quote">"</div>
+                <p className="review-text">{review.text}</p>
+                <div className="review-footer">
                   <div className="reviewer-info">
                     <div className="reviewer-avatar">
                       {review.name.charAt(0)}
@@ -115,47 +120,80 @@ function About() {
                       </div>
                     </div>
                   </div>
+                  <div className="review-verified">✓ Verified</div>
                 </div>
-                <p className="review-text">"{review.text}"</p>
-                <div className="review-verified">✓ Verified Member</div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Location Section - Static image instead of iframe for better performance */}
+        {/* Location Section with Map Image */}
         <div className="location-section">
-          <h2>Find Us <span className="gradient-text">Here</span></h2>
+          <h2 className="location-title">Find <span className="gold-text">Us Here</span></h2>
           <div className="location-card">
             <div className="location-details">
-              <h3>📍 Muscle Universe Gym</h3>
-              <p>No 50, JKN ARCADE, 3rd & 4th Floor,<br />
-              1st Cross, 27th Main, BTM 1st Stage,<br />
-              Bengaluru, Karnataka 560068</p>
+              <div className="location-info-item">
+                <span className="location-icon">📍</span>
+                <div>
+                  <h3>Address</h3>
+                  <p>No 50, JKN ARCADE, 3rd & 4th Floor,<br />
+                  1st Cross, 27th Main, BTM 1st Stage,<br />
+                  Bengaluru, Karnataka 560068</p>
+                </div>
+              </div>
               
-              <h3>📞 Contact</h3>
-              <p>Phone: 95356 68280</p>
-              <p>Email: info@muscleuniverse.com</p>
+              <div className="location-info-item">
+                <span className="location-icon">📞</span>
+                <div>
+                  <h3>Phone</h3>
+                  <p>95356 68280</p>
+                </div>
+              </div>
               
-              <h3>🕐 Opening Hours</h3>
-              <p>Monday - Friday: 5:30 AM - 10:30 PM</p>
-              <p>Saturday: 6:00 AM - 9:00 PM</p>
-              <p>Sunday: 6:00 AM - 9:00 PM</p>
+              <div className="location-info-item">
+                <span className="location-icon">✉️</span>
+                <div>
+                  <h3>Email</h3>
+                  <p>info@muscleuniverse.com</p>
+                </div>
+              </div>
               
-              <h3>💳 Payment Methods</h3>
-              <p>Cash • Google Pay • Credit/Debit Cards</p>
+              <div className="location-info-item">
+                <span className="location-icon">🕐</span>
+                <div>
+                  <h3>Opening Hours</h3>
+                  <p>Monday - Friday: 5:30 AM - 10:30 PM</p>
+                  <p>Saturday - Sunday: 6:00 AM - 9:00 PM</p>
+                </div>
+              </div>
+              
+              <div className="location-info-item">
+                <span className="location-icon">💳</span>
+                <div>
+                  <h3>Payment Methods</h3>
+                  <p>Cash • Google Pay • Credit/Debit Cards</p>
+                </div>
+              </div>
             </div>
-            <div className="location-map">
+            <div className="location-map-wrapper">
               <a 
                 href="https://maps.google.com/?q=12.916563,77.603375" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="map-link"
               >
-                <div className="map-placeholder">
-                  <div className="map-pin">📍</div>
-                  <p>Tap to open in Google Maps</p>
-                  <span className="map-arrow">→</span>
+                <img 
+                  src="https://maps.googleapis.com/maps/api/staticmap?center=BTM+Layout,Bengaluru&zoom=14&size=600x400&markers=color:red%7C12.916563,77.603375&key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg"
+                  alt="Muscle Universe Gym Location"
+                  className="map-image"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "https://placehold.co/600x400/1a1a2e/f5a623?text=Muscle+Universe+Gym";
+                  }}
+                />
+                <div className="map-overlay">
+                  <span className="map-pin-icon">📍</span>
+                  <span className="map-text">Open in Google Maps →</span>
                 </div>
               </a>
             </div>
