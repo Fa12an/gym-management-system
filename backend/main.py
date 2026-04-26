@@ -5,8 +5,6 @@ from passlib.context import CryptContext
 from jose import jwt
 from datetime import datetime, timedelta
 import os
-import requests
-import asyncio
 from bson import ObjectId
 from dotenv import load_dotenv
 
@@ -108,25 +106,33 @@ def require_admin(token: str):
         raise HTTPException(status_code=403, detail="Admin access required")
     return user
 
-# ============ KEEP-ALIVE ENDPOINTS ============
+# ============ KEEP-ALIVE ENDPOINTS (ROOT LEVEL) ============
 
-@app.get("/api/keep-alive")
+@app.get("/keep-alive")
 def keep_alive():
-    """Simple endpoint to keep the server alive"""
+    """Simple endpoint to keep the server alive - NO /api prefix"""
     return {
         "status": "alive",
         "timestamp": datetime.now().isoformat(),
         "message": "Server is running"
     }
 
-@app.get("/api/health")
+@app.get("/health")
 def health_check():
     """Health check endpoint for monitoring"""
     return {
         "status": "healthy",
         "timestamp": datetime.now().isoformat(),
-        "uptime": "running",
-        "database": "connected" if client is not None else "disconnected"
+        "database": "connected" if client is not None else "disconnected",
+        "uptime": "running"
+    }
+
+@app.get("/ping")
+def ping():
+    """Simple ping endpoint"""
+    return {
+        "pong": True,
+        "timestamp": datetime.now().isoformat()
     }
 
 # ============ PUBLIC ROUTES ============
@@ -139,12 +145,13 @@ def root():
         "status": "active",
         "version": "2.0",
         "endpoints": [
+            "/keep-alive",
+            "/health",
+            "/ping",
             "/api/test",
             "/api/book-trial",
             "/api/login",
             "/api/check-auth",
-            "/api/keep-alive",
-            "/api/health",
             "/admin/*"
         ]
     }
