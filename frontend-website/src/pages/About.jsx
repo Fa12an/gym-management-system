@@ -7,7 +7,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 function About() {
   const sectionsRef = useRef([]);
-  const cardsRef = useRef([]);
+  const cardsRef    = useRef([]);
+  const statsRef    = useRef([]);
 
   const reviews = [
     {
@@ -38,88 +39,120 @@ function About() {
   ];
 
   useEffect(() => {
-    // Only run GSAP on non-touch / desktop devices
-    const isMobile = window.matchMedia('(max-width: 768px)').matches || 
+    const isMobile = window.matchMedia('(max-width: 768px)').matches ||
                      ('ontouchstart' in window);
 
     if (isMobile) {
-      // On mobile: just make everything visible immediately, no JS animation
-      sectionsRef.current.forEach(el => {
-        if (el) el.style.opacity = '1';
-      });
-      cardsRef.current.forEach(el => {
-        if (el) el.style.opacity = '1';
-      });
-      return; // skip all GSAP setup
+      // ── MOBILE: pure CSS animations via IntersectionObserver ──
+      // Elements start hidden via CSS class, observer adds 'animate-in' to trigger CSS keyframe
+      const allEls = [
+        ...sectionsRef.current,
+        ...cardsRef.current,
+        ...statsRef.current,
+      ].filter(Boolean);
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('animate-in');
+              observer.unobserve(entry.target); // fire once only
+            }
+          });
+        },
+        { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+      );
+
+      allEls.forEach(el => observer.observe(el));
+
+      // Hero text — just fade in via CSS class after tiny delay
+      const heroH1 = document.querySelector('.about-hero-content h1');
+      const heroP  = document.querySelector('.about-hero-content p');
+      if (heroH1) setTimeout(() => heroH1.classList.add('animate-in'), 80);
+      if (heroP)  setTimeout(() => heroP.classList.add('animate-in'),  220);
+
+      return () => observer.disconnect();
     }
 
-    // Desktop-only GSAP animations
+    // ── DESKTOP: GSAP ──
     gsap.fromTo('.about-hero-content h1',
-      { opacity: 0, y: 40 },
-      { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }
+      { opacity: 0, y: 45 },
+      { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }
     );
-
     gsap.fromTo('.about-hero-content p',
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.9, delay: 0.25, ease: 'power3.out' }
+      { opacity: 0, y: 25 },
+      { opacity: 1, y: 0, duration: 1, delay: 0.28, ease: 'power3.out' }
     );
 
-    sectionsRef.current.forEach((section, index) => {
+    sectionsRef.current.forEach((section, i) => {
       if (!section) return;
       gsap.fromTo(section,
-        { opacity: 0, y: 40 },
+        { opacity: 0, y: 45 },
         {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          delay: index * 0.08,
+          opacity: 1, y: 0, duration: 0.75,
           scrollTrigger: {
             trigger: section,
             start: 'top 88%',
-            toggleActions: 'play none none reverse'
+            toggleActions: 'play none none none'
           }
         }
       );
     });
 
-    cardsRef.current.forEach((card, index) => {
+    cardsRef.current.forEach((card, i) => {
       if (!card) return;
       gsap.fromTo(card,
         { opacity: 0, y: 30 },
         {
-          opacity: 1,
-          y: 0,
+          opacity: 1, y: 0,
           duration: 0.55,
-          delay: index * 0.08,
+          delay: i * 0.09,
           scrollTrigger: {
             trigger: card,
             start: 'top 92%',
-            toggleActions: 'play none none reverse'
+            toggleActions: 'play none none none'
           }
         }
       );
     });
 
-    // Cleanup on unmount
-    return () => {
-      ScrollTrigger.getAll().forEach(t => t.kill());
-    };
+    statsRef.current.forEach((stat, i) => {
+      if (!stat) return;
+      gsap.fromTo(stat,
+        { opacity: 0, scale: 0.85 },
+        {
+          opacity: 1, scale: 1,
+          duration: 0.5,
+          delay: i * 0.1,
+          ease: 'back.out(1.4)',
+          scrollTrigger: {
+            trigger: stat,
+            start: 'top 90%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    });
+
+    return () => ScrollTrigger.getAll().forEach(t => t.kill());
   }, []);
 
   return (
     <div className="about-premium">
-      {/* Hero Section */}
+
+      {/* Hero */}
       <section className="about-hero">
         <div className="about-hero-overlay"></div>
         <div className="about-hero-content">
-          <h1>About <span className="gradient-text">Muscle Universe</span></h1>
-          <p>Your journey to a healthier, stronger life starts here</p>
+          <h1 className="fade-up-init">About <span className="gradient-text">Muscle Universe</span></h1>
+          <p className="fade-up-init">Your journey to a healthier, stronger life starts here</p>
         </div>
       </section>
 
       <div className="container">
-        {/* Story Section */}
-        <section className="about-story-premium" ref={el => sectionsRef.current[0] = el}>
+
+        {/* Story */}
+        <section className="about-story-premium fade-up-init" ref={el => sectionsRef.current[0] = el}>
           <div className="about-card-premium">
             <h2>📖 Our Story</h2>
             <p>Founded in 2016, Muscle Universe Gym has been dedicated to helping individuals achieve their fitness goals in a supportive and motivating environment. What started as a small local gym has now grown into a premier fitness destination with state-of-the-art equipment and expert trainers.</p>
@@ -127,8 +160,8 @@ function About() {
           </div>
         </section>
 
-        {/* Mission Vision Values */}
-        <section className="mission-vision-premium" ref={el => sectionsRef.current[1] = el}>
+        {/* Mission / Vision / Values */}
+        <section className="mission-vision-premium fade-up-init" ref={el => sectionsRef.current[1] = el}>
           <div className="mv-card-premium">
             <div className="mv-icon">🎯</div>
             <h3>Our Mission</h3>
@@ -146,46 +179,47 @@ function About() {
           </div>
         </section>
 
-        {/* Stats Section */}
+        {/* Stats */}
         <section className="about-stats-premium" ref={el => sectionsRef.current[2] = el}>
-          <div className="about-stat-card">
-            <div className="about-stat-number">5000+</div>
-            <div className="about-stat-label">Happy Members</div>
-          </div>
-          <div className="about-stat-card">
-            <div className="about-stat-number">50+</div>
-            <div className="about-stat-label">Expert Trainers</div>
-          </div>
-          <div className="about-stat-card">
-            <div className="about-stat-number">20+</div>
-            <div className="about-stat-label">Classes Weekly</div>
-          </div>
-          <div className="about-stat-card">
-            <div className="about-stat-number">8+</div>
-            <div className="about-stat-label">Years Excellence</div>
-          </div>
+          {[
+            { num: '5000+', label: 'Happy Members'   },
+            { num: '50+',   label: 'Expert Trainers' },
+            { num: '20+',   label: 'Classes Weekly'  },
+            { num: '8+',    label: 'Years Excellence'},
+          ].map((s, i) => (
+            <div
+              key={i}
+              className="about-stat-card fade-up-init"
+              ref={el => statsRef.current[i] = el}
+              style={{ '--delay': `${i * 0.08}s` }}
+            >
+              <div className="about-stat-number">{s.num}</div>
+              <div className="about-stat-label">{s.label}</div>
+            </div>
+          ))}
         </section>
 
-        {/* Reviews Section */}
+        {/* Reviews */}
         <section className="reviews-section">
-          <div className="section-header">
+          <div className="section-header fade-up-init" ref={el => sectionsRef.current[3] = el}>
             <span className="section-tag">Member Testimonials</span>
             <h2>What Our <span className="gradient-text">Members Say</span></h2>
             <p>Don't just take our word for it - hear from our amazing community</p>
           </div>
           <div className="reviews-grid">
             {reviews.map((review, index) => (
-              <div key={index} className="review-card-premium" ref={el => cardsRef.current[index] = el}>
+              <div
+                key={index}
+                className="review-card-premium fade-up-init"
+                ref={el => cardsRef.current[index] = el}
+                style={{ '--delay': `${index * 0.07}s` }}
+              >
                 <div className="review-header">
                   <div className="reviewer-info">
-                    <div className="reviewer-avatar">
-                      {review.name.charAt(0)}
-                    </div>
+                    <div className="reviewer-avatar">{review.name.charAt(0)}</div>
                     <div>
                       <h4>{review.name}</h4>
-                      <div className="review-rating">
-                        {'⭐'.repeat(review.rating)}
-                      </div>
+                      <div className="review-rating">{'⭐'.repeat(review.rating)}</div>
                     </div>
                   </div>
                 </div>
@@ -196,8 +230,8 @@ function About() {
           </div>
         </section>
 
-        {/* Location Section */}
-        <section className="location-premium" ref={el => sectionsRef.current[3] = el}>
+        {/* Location */}
+        <section className="location-premium fade-up-init" ref={el => sectionsRef.current[4] = el}>
           <h2>Find Us <span className="gradient-text">Here</span></h2>
           <div className="location-card-premium">
             <div className="location-details-premium">
@@ -205,19 +239,15 @@ function About() {
               <p>No 50, JKN ARCADE, 3rd & 4th Floor,<br />
               1st Cross, 27th Main, BTM 1st Stage,<br />
               Bengaluru, Karnataka 560068</p>
-
               <h3>📞 Contact</h3>
               <p>Phone: 95356 68280</p>
               <p>Email: info@muscleuniverse.com</p>
-
               <h3>🕐 Opening Hours</h3>
               <p>Monday - Friday: 5:30 AM - 10:30 PM</p>
               <p>Saturday: 6:00 AM - 9:00 PM</p>
               <p>Sunday: 6:00 AM - 9:00 PM</p>
-
               <h3>💳 Payment Methods</h3>
               <p>Cash • Google Pay • Credit/Debit Cards</p>
-
               <h3>🅿️ Parking</h3>
               <p>Free parking lot available • On-site parking</p>
             </div>
@@ -235,6 +265,7 @@ function About() {
             </div>
           </div>
         </section>
+
       </div>
     </div>
   );
