@@ -1,10 +1,12 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
+import logo from '../assets/images/Muscle_Universe_Logo.jpeg';
 import './Navbar.css';
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [logoError, setLogoError] = useState(false);
   const location = useLocation();
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
@@ -76,7 +78,14 @@ function Navbar() {
     <nav className={`navbar-premium ${scrolled ? 'scrolled' : ''}`}>
       <div className="nav-container-premium">
         <Link to="/" className="logo-premium" onClick={closeMenu}>
-          <span className="logo-icon-premium">💪</span>
+          {!logoError && (
+            <img 
+              src={logo} 
+              alt="Muscle Universe Logo" 
+              className="logo-img-premium"
+              onError={() => setLogoError(true)}
+            />
+          )}
           <div className="logo-text-premium">
             MUSCLE <span>UNIVERSE</span>
           </div>
