@@ -32,9 +32,12 @@
   text-decoration: none;
 }
 
-.logo-icon-premium {
-  font-size: 1.8rem;
-  display: inline-block;
+.logo-img-premium {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px;
+  display: block;
 }
 
 .logo-text-premium {
@@ -148,8 +151,9 @@
     font-size: 0.9rem;
   }
   
-  .logo-icon-premium {
-    font-size: 1.5rem;
+  .logo-img-premium {
+    width: 32px;
+    height: 32px;
   }
   
   .nav-link-premium {
@@ -173,6 +177,11 @@
   .nav-link-premium {
     font-size: 0.85rem;
   }
+  
+  .logo-img-premium {
+    width: 36px;
+    height: 36px;
+  }
 }
 
 /* Desktop */
@@ -181,8 +190,9 @@
     padding: 15px 0;
   }
   
-  .logo-icon-premium {
-    font-size: 2rem;
+  .logo-img-premium {
+    width: 44px;
+    height: 44px;
   }
   
   .logo-text-premium {
@@ -204,8 +214,9 @@
     width: 85%;
   }
   
-  .logo-icon-premium {
-    font-size: 1.3rem;
+  .logo-img-premium {
+    width: 28px;
+    height: 28px;
   }
   
   .logo-text-premium {
