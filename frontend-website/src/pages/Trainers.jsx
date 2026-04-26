@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './Trainers.css';
 
 function Trainers() {
@@ -56,7 +57,7 @@ function Trainers() {
                 <p className="trainer-specialization">🎯 {trainer.specialization}</p>
                 <p className="trainer-experience">⭐ {trainer.experience} Experience</p>
                 <p className="trainer-certifications">📜 {trainer.certifications}</p>
-                <button className="book-session-btn">Book a Session</button>
+                <Link to="/join" className="book-session-btn">Book a Session →</Link>
               </div>
             </div>
           ))}
