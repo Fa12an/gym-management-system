@@ -34,6 +34,12 @@ function About() {
     }
   ];
 
+  // BTM Layout coordinates for Muscle Universe Gym
+  const gymLat = 12.916563;
+  const gymLng = 77.603375;
+  const googleMapsUrl = `https://www.google.com/maps?q=${gymLat},${gymLng}`;
+  const staticMapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${gymLat},${gymLng}&zoom=15&size=600x400&markers=color:red%7Csize:big%7C${gymLat},${gymLng}&key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg`;
+
   return (
     <div className="about-premium">
       {/* Hero Section */}
@@ -127,7 +133,7 @@ function About() {
           </div>
         </div>
 
-        {/* Location Section with Map Image */}
+        {/* Location Section with Live Map */}
         <div className="location-section">
           <h2 className="location-title">Find <span className="gold-text">Us Here</span></h2>
           <div className="location-card">
@@ -177,20 +183,21 @@ function About() {
             </div>
             <div className="location-map-wrapper">
               <a 
-                href="https://maps.google.com/?q=12.916563,77.603375" 
+                href={googleMapsUrl}
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="map-link"
               >
-                <img 
-                  src="https://maps.googleapis.com/maps/api/staticmap?center=BTM+Layout,Bengaluru&zoom=14&size=600x400&markers=color:red%7C12.916563,77.603375&key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg"
-                  alt="Muscle Universe Gym Location"
-                  className="map-image"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = "https://placehold.co/600x400/1a1a2e/f5a623?text=Muscle+Universe+Gym";
-                  }}
-                />
+                <iframe
+                  title="Muscle Universe Gym Location"
+                  src="https://maps.google.com/maps?q=12.916563,77.603375&z=15&output=embed"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0, minHeight: '400px' }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
                 <div className="map-overlay">
                   <span className="map-pin-icon">📍</span>
                   <span className="map-text">Open in Google Maps →</span>
